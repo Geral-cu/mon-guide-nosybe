@@ -9,13 +9,13 @@
         :root { --primary: #064e3b; --secondary: #10b981; --dark: #1f2937; --light: #f9fafb; --danger: #dc2626; --police-color: #1d4ed8; --wa-color: #25d366; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--light); color: var(--dark); padding-bottom: 30px; }
-        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         header h1 { font-size: 1.8rem; margin: 0; }
         .emergency-banner { background-color: #fef2f2; border: 2px solid #fca5a5; border-radius: 12px; margin: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .emergency-title { color: var(--danger); font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; justify-content: center; }
         .zone-title { font-size: 0.85rem; text-transform: uppercase; color: #7f1d1d; font-weight: 700; margin-top: 10px; margin-bottom: 6px; border-bottom: 1px solid #fee2e2; padding-bottom: 2px; }
         .emergency-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 10px; }
-        .btn-urgency { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: bold; transition: all 0.3s ease; }
+        .btn-urgency { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: bold; border: none; cursor: pointer; transition: all 0.2s; }
         .btn-urgency:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
         .btn-call { background-color: var(--danger); }
         .btn-police { background-color: var(--police-color); }
@@ -32,7 +32,7 @@
         .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
         .card-desc { font-size: 0.85rem; color: #4b5563; margin-bottom: 12px; }
         .card-price { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
-        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.3s; margin-bottom: 8px; }
+        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: all 0.2s; }
         .btn-wa:hover { opacity: 0.9; transform: scale(1.02); }
         .btn-delete { background-color: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
         .btn-delete:hover { opacity: 0.8; }
