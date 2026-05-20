@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Guide Touristique & Services - Madagascar Nord</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #064e3b; --secondary: #10b981; --dark: #1f2937; --light: #f9fafb; --danger: #dc2626; --police-color: #1d4ed8; --wa-color: #25d366; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--light); color: var(--dark); padding-bottom: 30px; }
+        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .emergency-banner { background-color: #fef2f2; border: 2px solid #fca5a5; border-radius: 12px; margin: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .emergency-title { color: var(--danger); font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; justify-content: center; }
+        .zone-title { font-size: 0.85rem; text-transform: uppercase; color: #7f1d1d; font-weight: 700; margin-top: 10px; margin-bottom: 6px; border-bottom: 1px solid #fee2e2; padding-bottom: 2px; }
+        .emergency-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 10px; }
+        .btn-urgency { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: bold; text-align: center; }
+        .btn-call { background-color: var(--danger); }
+        .btn-police { background-color: var(--police-color); }
+        .btn-diego { background-color: #6b21a8; }
+        .btn-wa-urgency { background-color: var(--wa-color); grid-column: 1 / -1; margin-top: 4px; font-size: 0.95rem; padding: 12px; }
+        .filters { display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
+        .filter-btn { background-color: white; border: 1px solid #e5e7eb; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: #4b5563; }
+        .filter-btn.active { background-color: var(--secondary); color: white; border-color: var(--secondary); }
+        .container { padding: 10px 15px; display: grid; gap: 15px; }
+        .card { background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
+        .card-img { width: 100%; height: 180px; object-fit: cover; background-color: #e5e7eb; }
+        .card-body { padding: 15px; }
+        .card-tag { font-size: 0.75rem; color: var(--secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+        .card-desc { font-size: 0.85rem; color: #4b5563; margin-bottom: 12px; }
+        .card-price { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
+        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 0.9rem; }
+        .btn-delete { background-color: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; margin-top: 10px; cursor: pointer; }
+        .admin-panel { display: none; background-color: #f3f4f6; margin: 15px; padding: 15px; border-radius: 12px; }
+        .btn-submit { background-color: var(--primary); color: white; padding: 10px; width: 100%; border-radius: 6px; border: none; font-weight: bold; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <header><h1>Madagascar Nord Guide</h1></header>
+    <div class="emergency-banner">
+        <div class="emergency-title">⚠️ NUMÉROS D'URGENCE</div>
+        <div class="zone-title">📍 Nosy Be</div>
+        <div class="emergency-buttons">
+            <a href="tel:+261320722222" class="btn-urgency btn-call">🚑 Santé CMI</a>
+            <a href="tel:+261340570044" class="btn-urgency btn-police">🚓 Police Nosy Be</a>
+            <a href="tel:+261340561556" class="btn-urgency btn-police">🛡️ Gendarmerie</a>
+        </div>
+        <div class="zone-title">📍 Diego-Suarez</div>
+        <div class="emergency-buttons">
+            <a href="tel:+261320494474" class="btn-urgency btn-diego">🚑 Hôpital</a>
+            <a href="tel:+261340552433" class="btn-urgency btn-diego">🛡️ Gendarmerie</a>
+        </div>
+        <a href="https://api.whatsapp.com/send?phone=261377842473" class="btn-urgency btn-wa-urgency"><i class="fab fa-whatsapp"></i> Signaler une Urgence WhatsApp</a>
+    </div>
+    <div class="filters">
+        <button class="filter-btn active" onclick="filterCat('all')">Tout voir</button>
+        <button class="filter-btn" onclick="filterCat('Hôtel')">🏨 Hôtels</button>
+        <button class="filter-btn" onclick="filterCat('Excursion')">🏝️ Excursions</button>
+        <button class="filter-btn" onclick="filterCat('Location')">🏍️ Location</button>
+    </div>
+    <div class="container" id="cards-container"></div>
+    <div style="text-align:center; margin: 20px;"><button onclick="document.getElementById('admin-panel').style.display='block'">⚙️ Ajouter une offre</button></div>
+    <div class="admin-panel" id="admin-panel">
+        <select id="form-cat"><option value="Hôtel">Hôtel</option><option value="Excursion">Excursion</option><option value="Location">Location</option></select>
+        <input type="text" id="form-title" placeholder="Titre">
+        <textarea id="form-desc" placeholder="Description"></textarea>
+        <input type="text" id="form-price" placeholder="Prix">
+        <input type="text" id="form-img" placeholder="Lien photo directe">
+        <button class="btn-submit" onclick="addCard()">Mettre en ligne</button>
+    </div>
+    <script>
+        const defaultData = [
+            { category: "Excursion", title: "Réserve Naturelle de Lokobe", desc: "Découverte des lémuriens et forêt tropicale.", price: "Sur Devis", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=500&q=80" },
+            { category: "Location", title: "Location Quads & Motos", desc: "Explorez l'île en totale liberté.", price: "35€ / jour", img: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=500&q=80" }
+        ];
+        let items = JSON.parse(localStorage.getItem('guide_items')) || defaultData;
+        let currentFilter = 'all';
+        function render() {
+            let container = document.getElementById('cards-container');
+            container.innerHTML = '';
+            items.forEach((item, index) => {
+                if (currentFilter === 'all' || item.category === currentFilter) {
+                    container.innerHTML += `
+                        <div class="card">
+                            <img class="card-img" src="${item.img}">
+                            <div class="card-body">
+                                <div class="card-tag">${item.category}</div>
+                                <h3 class="card-title">${item.title}</h3>
+                                <p class="card-desc">${item.desc}</p>
+                                <div class="card-price">${item.price}</div>
+                                <a href="https://api.whatsapp.com/send?phone=261377842473" class="btn-wa">Réserver via WhatsApp</a>
+                                <button class="btn-delete" onclick="deleteCard(${index})">🗑️ Supprimer</button>
+                            </div>
+                        </div>`;
+                }
+            });
+        }
+        function filterCat(cat) { currentFilter = cat; render(); }
+        function addCard() {
+            items.push({ category: document.getElementById('form-cat').value, title: document.getElementById('form-title').value, desc: document.getElementById('form-desc').value, price: document.getElementById('form-price').value, img: document.getElementById('form-img').value });
+            localStorage.setItem('guide_items', JSON.stringify(items));
+            render();
+            document.getElementById('admin-panel').style.display='none';
+        }
+        function deleteCard(index) { items.splice(index, 1); localStorage.setItem('guide_items', JSON.stringify(items)); render(); }
+        render();
+    </script>
+</body>
+</html>
