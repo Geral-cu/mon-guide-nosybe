@@ -9,18 +9,20 @@
         :root { --primary: #064e3b; --secondary: #10b981; --dark: #1f2937; --light: #f9fafb; --danger: #dc2626; --police-color: #1d4ed8; --wa-color: #25d366; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--light); color: var(--dark); padding-bottom: 30px; }
-        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        header h1 { font-size: 1.8rem; margin: 0; }
         .emergency-banner { background-color: #fef2f2; border: 2px solid #fca5a5; border-radius: 12px; margin: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .emergency-title { color: var(--danger); font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; justify-content: center; }
         .zone-title { font-size: 0.85rem; text-transform: uppercase; color: #7f1d1d; font-weight: 700; margin-top: 10px; margin-bottom: 6px; border-bottom: 1px solid #fee2e2; padding-bottom: 2px; }
         .emergency-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 10px; }
-        .btn-urgency { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: bold; text-align: center; }
+        .btn-urgency { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: bold; transition: all 0.3s ease; }
+        .btn-urgency:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
         .btn-call { background-color: var(--danger); }
         .btn-police { background-color: var(--police-color); }
         .btn-diego { background-color: #6b21a8; }
         .btn-wa-urgency { background-color: var(--wa-color); grid-column: 1 / -1; margin-top: 4px; font-size: 0.95rem; padding: 12px; }
         .filters { display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
-        .filter-btn { background-color: white; border: 1px solid #e5e7eb; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: #4b5563; }
+        .filter-btn { background-color: white; border: 1px solid #e5e7eb; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: #4b5563; transition: all 0.2s; }
         .filter-btn.active { background-color: var(--secondary); color: white; border-color: var(--secondary); }
         .container { padding: 10px 15px; display: grid; gap: 15px; }
         .card { background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
@@ -30,14 +32,23 @@
         .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
         .card-desc { font-size: 0.85rem; color: #4b5563; margin-bottom: 12px; }
         .card-price { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
-        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 0.9rem; }
-        .btn-delete { background-color: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; margin-top: 10px; cursor: pointer; }
+        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.3s; margin-bottom: 8px; }
+        .btn-wa:hover { opacity: 0.9; transform: scale(1.02); }
+        .btn-delete { background-color: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+        .btn-delete:hover { opacity: 0.8; }
         .admin-panel { display: none; background-color: #f3f4f6; margin: 15px; padding: 15px; border-radius: 12px; }
-        .btn-submit { background-color: var(--primary); color: white; padding: 10px; width: 100%; border-radius: 6px; border: none; font-weight: bold; margin-top: 5px; }
+        .admin-panel input, .admin-panel textarea, .admin-panel select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 0.95rem; }
+        .btn-submit { background-color: var(--primary); color: white; padding: 10px; width: 100%; border-radius: 6px; border: none; font-weight: bold; margin-top: 5px; cursor: pointer; transition: all 0.2s; }
+        .btn-submit:hover { background-color: #022c22; }
+        .settings-panel { display: none; background-color: #e0f2fe; margin: 15px; padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary); }
+        .settings-title { font-size: 1rem; font-weight: bold; margin-bottom: 15px; color: var(--primary); }
+        .btn-settings { background-color: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
+        .action-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
     </style>
 </head>
 <body>
-    <header><h1>Madagascar Nord Guide</h1></header>
+    <header><h1>🌴 Madagascar Nord Guide</h1></header>
+    
     <div class="emergency-banner">
         <div class="emergency-title">⚠️ NUMÉROS D'URGENCE</div>
         <div class="zone-title">📍 Nosy Be</div>
@@ -51,59 +62,197 @@
             <a href="tel:+261320494474" class="btn-urgency btn-diego">🚑 Hôpital</a>
             <a href="tel:+261340552433" class="btn-urgency btn-diego">🛡️ Gendarmerie</a>
         </div>
-        <a href="https://api.whatsapp.com/send?phone=261377842473" class="btn-urgency btn-wa-urgency"><i class="fab fa-whatsapp"></i> Signaler une Urgence WhatsApp</a>
+        <button class="btn-urgency btn-wa-urgency" onclick="sendWhatsAppUrgency()"><i class="fab fa-whatsapp"></i> Signaler une Urgence WhatsApp</button>
     </div>
+
     <div class="filters">
         <button class="filter-btn active" onclick="filterCat('all')">Tout voir</button>
         <button class="filter-btn" onclick="filterCat('Hôtel')">🏨 Hôtels</button>
         <button class="filter-btn" onclick="filterCat('Excursion')">🏝️ Excursions</button>
         <button class="filter-btn" onclick="filterCat('Location')">🏍️ Location</button>
     </div>
+
     <div class="container" id="cards-container"></div>
-    <div style="text-align:center; margin: 20px;"><button onclick="document.getElementById('admin-panel').style.display='block'">⚙️ Ajouter une offre</button></div>
-    <div class="admin-panel" id="admin-panel">
-        <select id="form-cat"><option value="Hôtel">Hôtel</option><option value="Excursion">Excursion</option><option value="Location">Location</option></select>
-        <input type="text" id="form-title" placeholder="Titre">
-        <textarea id="form-desc" placeholder="Description"></textarea>
-        <input type="text" id="form-price" placeholder="Prix">
-        <input type="text" id="form-img" placeholder="Lien photo directe">
-        <button class="btn-submit" onclick="addCard()">Mettre en ligne</button>
+
+    <div style="text-align:center; margin: 20px;">
+        <div class="action-buttons">
+            <button class="btn-settings" onclick="document.getElementById('admin-panel').style.display='block'">➕ Ajouter une offre</button>
+            <button class="btn-settings" onclick="document.getElementById('settings-panel').style.display='block'">⚙️ Paramètres WhatsApp</button>
+        </div>
     </div>
+
+    <!-- Panneau d'ajout d'offres -->
+    <div class="admin-panel" id="admin-panel">
+        <h3 style="margin-bottom: 15px;">Ajouter une nouvelle offre</h3>
+        <select id="form-cat">
+            <option value="Hôtel">🏨 Hôtel</option>
+            <option value="Excursion">🏝️ Excursion</option>
+            <option value="Location">🏍️ Location</option>
+        </select>
+        <input type="text" id="form-title" placeholder="Titre de l'offre">
+        <textarea id="form-desc" placeholder="Description détaillée"></textarea>
+        <input type="text" id="form-price" placeholder="Prix (ex: 35€ / jour)">
+        <input type="text" id="form-img" placeholder="URL de l'image directe">
+        <input type="text" id="form-wa" placeholder="Numéro WhatsApp (optionnel, ex: 261377842473)">
+        <button class="btn-submit" onclick="addCard()">📤 Mettre en ligne</button>
+        <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('admin-panel').style.display='none'">Annuler</button>
+    </div>
+
+    <!-- Panneau de paramètres WhatsApp -->
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-title">⚙️ Paramètres de Contact WhatsApp</div>
+        <label style="font-weight: bold; margin-bottom: 8px; display: block;">Numéro WhatsApp par défaut (sans +):</label>
+        <input type="text" id="default-wa" placeholder="261377842473" value="">
+        <label style="font-weight: bold; margin-top: 12px; margin-bottom: 8px; display: block;">Message de réservation par défaut:</label>
+        <textarea id="default-message" placeholder="Bonjour, j'aimerais réserver..." style="height: 100px;"></textarea>
+        <button class="btn-submit" onclick="saveSettings()">💾 Enregistrer les paramètres</button>
+        <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('settings-panel').style.display='none'">Fermer</button>
+    </div>
+
     <script>
+        // Configuration WhatsApp
+        let whatsappConfig = JSON.parse(localStorage.getItem('wa_config')) || {
+            defaultNumber: '261377842473',
+            defaultMessage: 'Bonjour, j\'aimerais en savoir plus sur cette offre.',
+            emergencyNumber: '261377842473'
+        };
+
         const defaultData = [
-            { category: "Excursion", title: "Réserve Naturelle de Lokobe", desc: "Découverte des lémuriens et forêt tropicale.", price: "Sur Devis", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=500&q=80" },
-            { category: "Location", title: "Location Quads & Motos", desc: "Explorez l'île en totale liberté.", price: "35€ / jour", img: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=500&q=80" }
+            { 
+                category: "Excursion", 
+                title: "Réserve Naturelle de Lokobe", 
+                desc: "Découverte des lémuriens et forêt tropicale. Visite guidée en groupe ou privée.",
+                price: "Sur Devis", 
+                img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+                wa: ''
+            },
+            { 
+                category: "Hôtel", 
+                title: "Complejo Turístico Sakalava", 
+                desc: "Hôtel 3 étoiles face à la mer avec piscine et restaurant gastronomique.",
+                price: "À partir de 85€", 
+                img: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80",
+                wa: ''
+            },
+            { 
+                category: "Location", 
+                title: "Location Quads & Motos", 
+                desc: "Explorez l'île en totale liberté. Équipement de sécurité fourni.",
+                price: "35€ / jour", 
+                img: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80",
+                wa: ''
+            }
         ];
+
         let items = JSON.parse(localStorage.getItem('guide_items')) || defaultData;
         let currentFilter = 'all';
+
+        // Charger les paramètres
+        function loadSettings() {
+            document.getElementById('default-wa').value = whatsappConfig.defaultNumber;
+            document.getElementById('default-message').value = whatsappConfig.defaultMessage;
+        }
+
+        // Sauvegarder les paramètres
+        function saveSettings() {
+            whatsappConfig.defaultNumber = document.getElementById('default-wa').value || '261377842473';
+            whatsappConfig.defaultMessage = document.getElementById('default-message').value;
+            localStorage.setItem('wa_config', JSON.stringify(whatsappConfig));
+            alert('✅ Paramètres WhatsApp mis à jour!');
+            document.getElementById('settings-panel').style.display = 'none';
+        }
+
+        // Générer lien WhatsApp
+        function getWhatsAppLink(itemTitle, whatsappNumber = null) {
+            const number = whatsappNumber || whatsappConfig.defaultNumber;
+            const message = `Bonjour 👋, j'aimerais en savoir plus sur: *${itemTitle}*`;
+            const encodedMessage = encodeURIComponent(message);
+            return `https://api.whatsapp.com/send?phone=${number}&text=${encodedMessage}`;
+        }
+
+        // Signaler une urgence par WhatsApp
+        function sendWhatsAppUrgency() {
+            const message = encodeURIComponent('⚠️ URGENCE: J\'ai besoin d\'aide immédiate à Madagascar Nord');
+            window.location.href = `https://api.whatsapp.com/send?phone=${whatsappConfig.emergencyNumber}&text=${message}`;
+        }
+
+        // Afficher les cartes
         function render() {
             let container = document.getElementById('cards-container');
             container.innerHTML = '';
             items.forEach((item, index) => {
                 if (currentFilter === 'all' || item.category === currentFilter) {
+                    const waLink = getWhatsAppLink(item.title, item.wa);
                     container.innerHTML += `
                         <div class="card">
-                            <img class="card-img" src="${item.img}">
+                            <img class="card-img" src="${item.img}" alt="${item.title}">
                             <div class="card-body">
                                 <div class="card-tag">${item.category}</div>
                                 <h3 class="card-title">${item.title}</h3>
                                 <p class="card-desc">${item.desc}</p>
                                 <div class="card-price">${item.price}</div>
-                                <a href="https://api.whatsapp.com/send?phone=261377842473" class="btn-wa">Réserver via WhatsApp</a>
+                                <a href="${waLink}" target="_blank" class="btn-wa">
+                                    <i class="fab fa-whatsapp"></i> Réserver via WhatsApp
+                                </a>
                                 <button class="btn-delete" onclick="deleteCard(${index})">🗑️ Supprimer</button>
                             </div>
                         </div>`;
                 }
             });
         }
-        function filterCat(cat) { currentFilter = cat; render(); }
-        function addCard() {
-            items.push({ category: document.getElementById('form-cat').value, title: document.getElementById('form-title').value, desc: document.getElementById('form-desc').value, price: document.getElementById('form-price').value, img: document.getElementById('form-img').value });
-            localStorage.setItem('guide_items', JSON.stringify(items));
+
+        // Filtrer par catégorie
+        function filterCat(cat) { 
+            currentFilter = cat; 
             render();
-            document.getElementById('admin-panel').style.display='none';
+            // Mettre à jour les boutons actifs
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
         }
-        function deleteCard(index) { items.splice(index, 1); localStorage.setItem('guide_items', JSON.stringify(items)); render(); }
+
+        // Ajouter une nouvelle offre
+        function addCard() {
+            const cat = document.getElementById('form-cat').value;
+            const title = document.getElementById('form-title').value;
+            const desc = document.getElementById('form-desc').value;
+            const price = document.getElementById('form-price').value;
+            const img = document.getElementById('form-img').value;
+            const wa = document.getElementById('form-wa').value;
+
+            if (!title || !desc || !price || !img) {
+                alert('⚠️ Remplissez tous les champs obligatoires!');
+                return;
+            }
+
+            items.push({ category: cat, title: title, desc: desc, price: price, img: img, wa: wa });
+            localStorage.setItem('guide_items', JSON.stringify(items));
+            
+            // Réinitialiser le formulaire
+            document.getElementById('form-cat').value = 'Hôtel';
+            document.getElementById('form-title').value = '';
+            document.getElementById('form-desc').value = '';
+            document.getElementById('form-price').value = '';
+            document.getElementById('form-img').value = '';
+            document.getElementById('form-wa').value = '';
+            
+            render();
+            alert('✅ Offre ajoutée avec succès!');
+            document.getElementById('admin-panel').style.display = 'none';
+        }
+
+        // Supprimer une offre
+        function deleteCard(index) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette offre?')) {
+                items.splice(index, 1);
+                localStorage.setItem('guide_items', JSON.stringify(items));
+                render();
+            }
+        }
+
+        // Initialisation
+        loadSettings();
         render();
     </script>
 </body>
