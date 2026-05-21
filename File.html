@@ -9,8 +9,30 @@
         :root { --primary: #064e3b; --secondary: #10b981; --dark: #1f2937; --light: #f9fafb; --danger: #dc2626; --police-color: #1d4ed8; --wa-color: #25d366; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--light); color: var(--dark); padding-bottom: 30px; }
-        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        header h1 { font-size: 1.8rem; margin: 0; }
+        
+        /* ÉCRAN DE CONNEXION */
+        .login-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--primary), #022c22); z-index: 9999; align-items: center; justify-content: center; }
+        .login-container.active { display: flex; }
+        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); max-width: 400px; width: 90%; }
+        .login-card h2 { text-align: center; margin-bottom: 30px; color: var(--primary); font-size: 1.8rem; }
+        .login-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .role-btn { padding: 15px; border: 2px solid #e5e7eb; border-radius: 10px; background: white; cursor: pointer; text-align: center; font-weight: bold; transition: all 0.2s; }
+        .role-btn.selected { border-color: var(--secondary); background-color: #f0fdf4; color: var(--secondary); }
+        .role-btn:hover { border-color: var(--secondary); }
+        .login-form { display: none; }
+        .login-form.active { display: block; }
+        .login-form input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 1rem; }
+        .login-form button { width: 100%; padding: 12px; background-color: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .login-form button:hover { background-color: #022c22; }
+        .login-message { text-align: center; margin-top: 15px; font-size: 0.9rem; color: #666; }
+        
+        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 1.8rem; margin: 0; flex: 1; }
+        .header-right { display: flex; gap: 10px; align-items: center; }
+        .user-badge { background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; }
+        .logout-btn { background: rgba(255,255,255,0.3); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .logout-btn:hover { background: rgba(255,255,255,0.5); }
+        
         .emergency-banner { background-color: #fef2f2; border: 2px solid #fca5a5; border-radius: 12px; margin: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .emergency-title { color: var(--danger); font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; justify-content: center; }
         .zone-title { font-size: 0.85rem; text-transform: uppercase; color: #7f1d1d; font-weight: 700; margin-top: 10px; margin-bottom: 6px; border-bottom: 1px solid #fee2e2; padding-bottom: 2px; }
@@ -25,7 +47,7 @@
         .filter-btn { background-color: white; border: 1px solid #e5e7eb; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: #4b5563; transition: all 0.2s; }
         .filter-btn.active { background-color: var(--secondary); color: white; border-color: var(--secondary); }
         .container { padding: 10px 15px; display: grid; gap: 15px; }
-        .card { background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
+        .card { background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; position: relative; }
         .card-img { width: 100%; height: 180px; object-fit: cover; background-color: #e5e7eb; }
         .card-body { padding: 15px; }
         .card-tag { font-size: 0.75rem; color: var(--secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
@@ -45,73 +67,182 @@
         .settings-title { font-size: 1rem; font-weight: bold; margin-bottom: 15px; color: var(--primary); }
         .btn-settings { background-color: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
         .action-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .admin-only { display: none; }
+        .admin-only.visible { display: block; }
+        .admin-badge { background-color: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
     </style>
 </head>
 <body>
-    <header><h1>🌴 Madagascar Nord Guide</h1></header>
-    
-    <div class="emergency-banner">
-        <div class="emergency-title">⚠️ NUMÉROS D'URGENCE</div>
-        <div class="zone-title">📍 Nosy Be</div>
-        <div class="emergency-buttons">
-            <a href="tel:+261320722222" class="btn-urgency btn-call">🚑 Santé CMI</a>
-            <a href="tel:+261340570044" class="btn-urgency btn-police">🚓 Police Nosy Be</a>
-            <a href="tel:+261340561556" class="btn-urgency btn-police">🛡️ Gendarmerie</a>
-        </div>
-        <div class="zone-title">📍 Diego-Suarez</div>
-        <div class="emergency-buttons">
-            <a href="tel:+261320494474" class="btn-urgency btn-diego">🚑 Hôpital</a>
-            <a href="tel:+261340552433" class="btn-urgency btn-diego">🛡️ Gendarmerie</a>
-        </div>
-        <button class="btn-urgency btn-wa-urgency" onclick="sendWhatsAppUrgency()"><i class="fab fa-whatsapp"></i> Signaler une Urgence WhatsApp</button>
-    </div>
-
-    <div class="filters">
-        <button class="filter-btn active" onclick="filterCat('all')">Tout voir</button>
-        <button class="filter-btn" onclick="filterCat('Hôtel')">🏨 Hôtels</button>
-        <button class="filter-btn" onclick="filterCat('Excursion')">🏝️ Excursions</button>
-        <button class="filter-btn" onclick="filterCat('Location')">🏍️ Location</button>
-    </div>
-
-    <div class="container" id="cards-container"></div>
-
-    <div style="text-align:center; margin: 20px;">
-        <div class="action-buttons">
-            <button class="btn-settings" onclick="document.getElementById('admin-panel').style.display='block'">➕ Ajouter une offre</button>
-            <button class="btn-settings" onclick="document.getElementById('settings-panel').style.display='block'">⚙️ Paramètres WhatsApp</button>
+    <!-- ÉCRAN DE CONNEXION -->
+    <div class="login-container active" id="login-container">
+        <div class="login-card">
+            <h2>🌴 Madagascar Nord Guide</h2>
+            
+            <div class="login-options">
+                <button class="role-btn selected" onclick="selectRole('client')" id="client-btn">👤 Client</button>
+                <button class="role-btn" onclick="selectRole('admin')" id="admin-btn">🔐 Admin</button>
+            </div>
+            
+            <!-- FORMULAIRE CLIENT -->
+            <div class="login-form active" id="client-form">
+                <p style="text-align: center; margin-bottom: 20px; color: #666;">Accès direct à toutes les offres</p>
+                <button class="btn-submit" onclick="loginClient()">Accéder au Guide</button>
+                <div class="login-message">Aucune authentification requise</div>
+            </div>
+            
+            <!-- FORMULAIRE ADMIN -->
+            <div class="login-form" id="admin-form">
+                <input type="password" id="admin-password" placeholder="Entrez le code admin" onkeypress="if(event.key=='Enter') loginAdmin()">
+                <button class="btn-submit" onclick="loginAdmin()">Se Connecter</button>
+                <div class="login-message" id="admin-message"></div>
+            </div>
         </div>
     </div>
 
-    <!-- Panneau d'ajout d'offres -->
-    <div class="admin-panel" id="admin-panel">
-        <h3 style="margin-bottom: 15px;">Ajouter une nouvelle offre</h3>
-        <select id="form-cat">
-            <option value="Hôtel">🏨 Hôtel</option>
-            <option value="Excursion">🏝️ Excursion</option>
-            <option value="Location">🏍️ Location</option>
-        </select>
-        <input type="text" id="form-title" placeholder="Titre de l'offre">
-        <textarea id="form-desc" placeholder="Description détaillée"></textarea>
-        <input type="text" id="form-price" placeholder="Prix (ex: 35€ / jour)">
-        <input type="text" id="form-img" placeholder="URL de l'image directe">
-        <input type="text" id="form-phone" placeholder="Téléphone (optionnel)">
-        <button class="btn-submit" onclick="addCard()">📤 Mettre en ligne</button>
-        <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('admin-panel').style.display='none'">Annuler</button>
-    </div>
+    <!-- CONTENU PRINCIPAL -->
+    <div id="main-content" style="display: none;">
+        <header>
+            <h1>🌴 Madagascar Nord Guide</h1>
+            <div class="header-right">
+                <div class="user-badge">
+                    <span id="user-role"></span>
+                    <span id="admin-badge" style="display: none;"> <span class="admin-badge">ADMIN</span></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Déconnexion</button>
+            </div>
+        </header>
+        
+        <div class="emergency-banner">
+            <div class="emergency-title">⚠️ NUMÉROS D'URGENCE</div>
+            <div class="zone-title">📍 Nosy Be</div>
+            <div class="emergency-buttons">
+                <a href="tel:+261320722222" class="btn-urgency btn-call">🚑 Santé CMI</a>
+                <a href="tel:+261340570044" class="btn-urgency btn-police">🚓 Police Nosy Be</a>
+                <a href="tel:+261340561556" class="btn-urgency btn-police">🛡️ Gendarmerie</a>
+            </div>
+            <div class="zone-title">📍 Diego-Suarez</div>
+            <div class="emergency-buttons">
+                <a href="tel:+261320494474" class="btn-urgency btn-diego">🚑 Hôpital</a>
+                <a href="tel:+261340552433" class="btn-urgency btn-diego">🛡️ Gendarmerie</a>
+            </div>
+            <button class="btn-urgency btn-wa-urgency" onclick="sendWhatsAppUrgency()"><i class="fab fa-whatsapp"></i> Signaler une Urgence WhatsApp</button>
+        </div>
 
-    <!-- Panneau de paramètres WhatsApp -->
-    <div class="settings-panel" id="settings-panel">
-        <div class="settings-title">⚙️ Paramètres de Contact WhatsApp</div>
-        <label style="font-weight: bold; margin-bottom: 8px; display: block;">Votre Numéro WhatsApp (sans +):</label>
-        <input type="text" id="default-wa" placeholder="261377842473" value="">
-        <label style="font-weight: bold; margin-top: 12px; margin-bottom: 8px; display: block;">Message de réservation par défaut:</label>
-        <textarea id="default-message" placeholder="Bonjour, j'aimerais réserver..." style="height: 100px;"></textarea>
-        <button class="btn-submit" onclick="saveSettings()">💾 Enregistrer les paramètres</button>
-        <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('settings-panel').style.display='none'">Fermer</button>
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterCat('all')">Tout voir</button>
+            <button class="filter-btn" onclick="filterCat('Hôtel')">🏨 Hôtels</button>
+            <button class="filter-btn" onclick="filterCat('Excursion')">🏝️ Excursions</button>
+            <button class="filter-btn" onclick="filterCat('Location')">🏍️ Location</button>
+        </div>
+
+        <div class="container" id="cards-container"></div>
+
+        <div style="text-align:center; margin: 20px;">
+            <div class="action-buttons admin-only" id="admin-actions">
+                <button class="btn-settings" onclick="document.getElementById('admin-panel').style.display='block'">➕ Ajouter une offre</button>
+                <button class="btn-settings" onclick="document.getElementById('settings-panel').style.display='block'">⚙️ Paramètres WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- Panneau d'ajout d'offres -->
+        <div class="admin-panel admin-only" id="admin-panel">
+            <h3 style="margin-bottom: 15px;">Ajouter une nouvelle offre</h3>
+            <select id="form-cat">
+                <option value="Hôtel">🏨 Hôtel</option>
+                <option value="Excursion">🏝️ Excursion</option>
+                <option value="Location">🏍️ Location</option>
+            </select>
+            <input type="text" id="form-title" placeholder="Titre de l'offre">
+            <textarea id="form-desc" placeholder="Description détaillée"></textarea>
+            <input type="text" id="form-price" placeholder="Prix (ex: 35€ / jour)">
+            <input type="text" id="form-img" placeholder="URL de l'image directe">
+            <input type="text" id="form-phone" placeholder="Téléphone (optionnel)">
+            <button class="btn-submit" onclick="addCard()">📤 Mettre en ligne</button>
+            <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('admin-panel').style.display='none'">Annuler</button>
+        </div>
+
+        <!-- Panneau de paramètres WhatsApp -->
+        <div class="settings-panel admin-only" id="settings-panel">
+            <div class="settings-title">⚙️ Paramètres de Contact WhatsApp</div>
+            <label style="font-weight: bold; margin-bottom: 8px; display: block;">Votre Numéro WhatsApp (sans +):</label>
+            <input type="text" id="default-wa" placeholder="261377842473" value="">
+            <label style="font-weight: bold; margin-top: 12px; margin-bottom: 8px; display: block;">Message de réservation par défaut:</label>
+            <textarea id="default-message" placeholder="Bonjour, j'aimerais réserver..." style="height: 100px;"></textarea>
+            <button class="btn-submit" onclick="saveSettings()">💾 Enregistrer les paramètres</button>
+            <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('settings-panel').style.display='none'">Fermer</button>
+        </div>
     </div>
 
     <script>
-        // Configuration WhatsApp
+        // ========== SYSTÈME D'AUTHENTIFICATION ==========
+        const ADMIN_CODE = '1234'; // ⚠️ À CHANGER AVEC VOTRE CODE PERSONNEL
+        let currentUser = null;
+        
+        function selectRole(role) {
+            document.getElementById('client-btn').classList.remove('selected');
+            document.getElementById('admin-btn').classList.remove('selected');
+            document.getElementById('client-form').classList.remove('active');
+            document.getElementById('admin-form').classList.remove('active');
+            
+            if (role === 'client') {
+                document.getElementById('client-btn').classList.add('selected');
+                document.getElementById('client-form').classList.add('active');
+            } else {
+                document.getElementById('admin-btn').classList.add('selected');
+                document.getElementById('admin-form').classList.add('active');
+                document.getElementById('admin-password').focus();
+            }
+        }
+        
+        function loginClient() {
+            currentUser = 'client';
+            showMainContent();
+        }
+        
+        function loginAdmin() {
+            const password = document.getElementById('admin-password').value;
+            if (password === ADMIN_CODE) {
+                currentUser = 'admin';
+                showMainContent();
+            } else {
+                document.getElementById('admin-message').textContent = '❌ Code incorrect!';
+                document.getElementById('admin-password').value = '';
+                setTimeout(() => {
+                    document.getElementById('admin-message').textContent = '';
+                }, 3000);
+            }
+        }
+        
+        function showMainContent() {
+            document.getElementById('login-container').classList.remove('active');
+            document.getElementById('main-content').style.display = 'block';
+            
+            if (currentUser === 'admin') {
+                document.getElementById('user-role').textContent = '🔐 Admin';
+                document.getElementById('admin-badge').style.display = 'inline';
+                document.getElementById('admin-actions').classList.add('visible');
+                document.getElementById('admin-panel').classList.add('visible');
+                document.getElementById('settings-panel').classList.add('visible');
+            } else {
+                document.getElementById('user-role').textContent = '👤 Client';
+            }
+            
+            // Afficher les boutons supprimer uniquement pour les admins
+            updateCardDisplay();
+        }
+        
+        function logout() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter?')) {
+                currentUser = null;
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('login-container').classList.add('active');
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-message').textContent = '';
+                selectRole('client');
+            }
+        }
+        
+        // ========== CONFIGURATION ET DONNÉES ==========
         let whatsappConfig = JSON.parse(localStorage.getItem('wa_config')) || {
             defaultNumber: '261377842473',
             defaultMessage: 'Bonjour 👋, j\'aimerais réserver cette offre. Quelles sont les disponibilités et conditions?',
@@ -119,307 +250,38 @@
         };
 
         const defaultData = [
-            // ========== HÔTELS NOSY BE ==========
-            { 
-                category: "Hôtel", 
-                location: "Nosy Be",
-                title: "Cambria Hotel", 
-                desc: "Hôtel budget confortable, accueil chaleureux, idéal pour voyageurs en quête d'économies.",
-                price: "À partir de 23€/nuit", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Hôtel", 
-                location: "Nosy Be",
-                title: "Villa Mia", 
-                desc: "Petit hôtel chaleureux avec terrasse vue sur mer. Atmosphère familiale et authentique.",
-                price: "À partir de 32€/nuit", 
-                phone: "+261 32 78 945 21",
-                img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Hôtel", 
-                location: "Nosy Be",
-                title: "Tropical Paradise", 
-                desc: "Hôtel 3 étoiles avec piscine, restaurant et bar. Service de qualité, bonne localisation.",
-                price: "À partir de 42€/nuit", 
-                phone: "+261 34 05 700 44",
-                img: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Hôtel", 
-                location: "Nosy Be",
-                title: "Holiday Beach Hotel", 
-                desc: "Hôtel 3 étoiles face à la plage avec accès direct à la mer, restaurant et loisirs nautiques.",
-                price: "À partir de 50€/nuit", 
-                phone: "+261 32 05 621 14",
-                img: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Hôtel", 
-                location: "Nosy Be",
-                title: "Clair de Lune", 
-                desc: "Hôtel 3-4 étoiles, confortable avec vue panoramique. Piscine, spa et restaurant gastronomique.",
-                price: "À partir de 60€/nuit", 
-                phone: "+261 34 05 705 55",
-                img: "https://images.unsplash.com/photo-1518991669328-0bfc6b186340?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Hôtel", 
-                location: "Nosy Be",
-                title: "Loharano Lodge", 
-                desc: "Hôtel 4 étoiles luxe avec vue mer spectaculaire, spa premium et service haut de gamme.",
-                price: "À partir de 104€/nuit", 
-                phone: "+261 32 04 851 63",
-                img: "https://images.unsplash.com/photo-1562576633-055ee5dbb183?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Hôtel", 
-                location: "Nosy Be",
-                title: "Vanila Hotel & Spa", 
-                desc: "Hôtel 5 étoiles avec spa de luxe, piscine infini, restaurant gourmet et plage privée.",
-                price: "À partir de 124€/nuit", 
-                phone: "+261 32 07 542 89",
-                img: "https://images.unsplash.com/photo-1571896349842-e4e0a7552e3c?auto=format&fit=crop&w=800&q=80"
-            },
-
-            // ========== HÔTELS DIEGO-SUAREZ ==========
-            { 
-                category: "Hôtel", 
-                location: "Diego-Suarez",
-                title: "Lotus Hotel", 
-                desc: "Hôtel budget idéal pour les voyageurs économes. Propre, simple et accueillant.",
-                price: "À partir de 9€/nuit", 
-                phone: "+261 32 04 521 47",
-                img: "https://images.unsplash.com/photo-1605559424843-9e4c3ca3806d?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Hôtel", 
-                location: "Diego-Suarez",
-                title: "Hotel Le Colbert", 
-                desc: "Hôtel 3 étoiles central, avec service attentif et bonne cuisine. Excellent rapport qualité-prix.",
-                price: "À partir de 37€/nuit", 
-                phone: "+261 34 05 524 33",
-                img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Hôtel", 
-                location: "Diego-Suarez",
-                title: "Le Jardin Exotique", 
-                desc: "Hôtel 3-4 étoiles avec jardins tropicaux, piscine et restaurant. Atmosphère raffinée.",
-                price: "À partir de 70€/nuit", 
-                phone: "+261 32 05 647 82",
-                img: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Hôtel", 
-                location: "Diego-Suarez",
-                title: "Grand Hotel Diego", 
-                desc: "Hôtel 4 étoiles luxe avec vue panoramique sur le port. Service premium et confort supérieur.",
-                price: "À partir de 113€/nuit", 
-                phone: "+261 34 05 528 94",
-                img: "https://images.unsplash.com/photo-1518991669328-0bfc6b186340?auto=format&fit=crop&w=800&q=80"
-            },
-
-            // ========== LOCATIONS ==========
-            { 
-                category: "Location", 
-                location: "Nosy Be",
-                title: "Location Quad 300cc", 
-                desc: "Quad puissant 2 places équipé de casques de sécurité et gilets. Explorez l'île en toute liberté et sécurité.",
-                price: "50€ / jour", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Location", 
-                location: "Nosy Be",
-                title: "Location Moto/Scooter 125cc", 
-                desc: "Motos et scooters bien entretenus pour explorer l'île. Casques et assurance inclus. Modèles légers et faciles.",
-                price: "15€ / jour", 
-                phone: "+261 32 89 969 03",
-                img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Location", 
-                location: "Nosy Be",
-                title: "Location VTT (Vélo Tout-Terrain)", 
-                desc: "VTT robustes et confortables pour explorer les pistes de l'île. Casques et accessoires fournis.",
-                price: "12€ / jour", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
-            },
-
-            // ========== EXCURSIONS TERRESTRES ==========
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "Réserve Naturelle de Lokobe", 
-                desc: "Découverte des lémuriens et forêt tropicale primaire. Visite guidée en groupe ou privée avec expert naturaliste.",
-                price: "65€/pers (journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "Hell-Ville & Marchés Traditionnels", 
-                desc: "Visite guidée du centre-ville, marchés traditionnels colorés, culture malgache et architecture locale.",
-                price: "35€/pers (demi-journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1493857671505-72967e2e2760?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "Tour Complet de l'Île Nosy Be", 
-                desc: "Excursion complète : points de vue panoramiques, arbres sacrés, plages cachées, vie locale. Lunch inclus.",
-                price: "45€/pers (journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "Randonnée Trekking Nature", 
-                desc: "Exploration des paysages intérieurs, cascades, lagons, véhétation luxuriante. Guide naturiste expert.",
-                price: "60-90€/pers (journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1551632440-5d3ae9bd7ebc?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "Jardins Ylang-Ylang & Distillerie", 
-                desc: "Visite des jardins de fleurs exotiques, démonstration de distillation, achat de produits locaux authentiques.",
-                price: "40€/pers", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1469873212035-56ceb8ff4d3f?auto=format&fit=crop&w=800&q=80"
-            },
-
-            // ========== EXCURSIONS EN MER / SNORKELING ==========
-            { 
-                category: "Excursion", 
-                location: "Nosy Tanikely",
-                title: "🏝️ Parc Marin Nosy Tanikely", 
-                desc: "L'aquarium naturel ! Snorkeling magnifique, phare historique, observation de poissons tropicaux, tortues marines. Réserve marine protégée.",
-                price: "55€/pers (journée complète)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Komba",
-                title: "Nosy Komba & Tanikely Combo", 
-                desc: "Deux îles en une journée ! Lémuriens de Komba + snorkeling extraordinaire à Tanikely. Repas, guide et matériel inclus.",
-                price: "60€/pers (journée complète)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Sakatia",
-                title: "Île Nosy Sakatia - Snorkeling", 
-                desc: "Île paradisiaque avec plages vierges, snorkeling avec tortues marines, poissons colorés, ambiance tropicale.",
-                price: "45€/pers (journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Iranja",
-                title: "Île Nosy Iranja - Paradis", 
-                desc: "L'île paradisiaque ! Snorkeling extraordinaire, croisière scenic, sable blanc, eau cristalline. Lunch pique-nique inclus.",
-                price: "60€/pers (journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "Combo 2 Îles - Tanikely + Sakatia", 
-                desc: "Deux îles magnifiques en une excursion ! Snorkeling complet, lunch, guide expert, matériel inclus.",
-                price: "95€/pers (journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "🛥️ Bateau Privé 1-5 Personnes", 
-                desc: "Bateau privé pour votre groupe ! Snorkeling aux meilleurs spots, repas raffiné à bord, service VIP, flexibilité totale.",
-                price: "260€/bateau (journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "🛥️ Bateau Privé 6-10 Personnes", 
-                desc: "Grand bateau privé pour groupe ! Snorkeling premium, lunch gastronomique, guide personnel, confort et flexibilité.",
-                price: "300€/bateau (journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80"
-            },
-
-            // ========== PLONGÉE SOUS-MARINE ==========
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "🤿 Baptême de Plongée (1 Plongée)", 
-                desc: "Votre première plongée ! Cours en piscine ou en eau peu profonde. Accompagnement instructeur expert. Brevet PADI.",
-                price: "55-65€/pers", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "🤿 Baptême de Plongée (2 Plongées)", 
-                desc: "Deux plongées pour bien débuter ! Exploration des fonds marins, découverte de la faune multicolore.",
-                price: "90-100€/pers", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "🤿 Pack 2 Plongées (Brevetés)", 
-                desc: "Pour plongeurs brevetés. Exploration des plus beaux spots, faune exceptionnelle, coraux, jardins de corail.",
-                price: "75-85€/pers", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "🤿 Pack 4 Plongées (Brevetés)", 
-                desc: "Séjour découverte en plongée. Exploration intensive, apprentissage avancé, spots exclusifs.",
-                price: "146-166€/pers", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80"
-            },
-
-            // ========== EXCURSIONS SPÉCIALES ==========
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "🐋 Safari Baleines & Requins-Baleine", 
-                desc: "Observation des géantes créatures marines (juin-septembre). Expérience inoubliable, photos spectaculaires.",
-                price: "60€/pers (journée)", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
-            },
-            { 
-                category: "Excursion", 
-                location: "Nosy Be",
-                title: "Multi-Îles Mitsio/Radama (2-3j)", 
-                desc: "Expédition complète : bivouac naturel, guide expert, snorkeling, observation faune. Tout compris.",
-                price: "90-110€/pers/jour", 
-                phone: "+261 32 07 210 79",
-                img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
-            }
+            { category: "Hôtel", location: "Nosy Be", title: "Cambria Hotel", desc: "Hôtel budget confortable, accueil chaleureux, idéal pour voyageurs en quête d'économies.", price: "À partir de 23€/nuit", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Nosy Be", title: "Villa Mia", desc: "Petit hôtel chaleureux avec terrasse vue sur mer. Atmosphère familiale et authentique.", price: "À partir de 32€/nuit", phone: "+261 32 78 945 21", img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Nosy Be", title: "Tropical Paradise", desc: "Hôtel 3 étoiles avec piscine, restaurant et bar. Service de qualité, bonne localisation.", price: "À partir de 42€/nuit", phone: "+261 34 05 700 44", img: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Nosy Be", title: "Holiday Beach Hotel", desc: "Hôtel 3 étoiles face à la plage avec accès direct à la mer, restaurant et loisirs nautiques.", price: "À partir de 50€/nuit", phone: "+261 32 05 621 14", img: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Nosy Be", title: "Clair de Lune", desc: "Hôtel 3-4 étoiles, confortable avec vue panoramique. Piscine, spa et restaurant gastronomique.", price: "À partir de 60€/nuit", phone: "+261 34 05 705 55", img: "https://images.unsplash.com/photo-1518991669328-0bfc6b186340?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Nosy Be", title: "Loharano Lodge", desc: "Hôtel 4 étoiles luxe avec vue mer spectaculaire, spa premium et service haut de gamme.", price: "À partir de 104€/nuit", phone: "+261 32 04 851 63", img: "https://images.unsplash.com/photo-1562576633-055ee5dbb183?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Nosy Be", title: "Vanila Hotel & Spa", desc: "Hôtel 5 étoiles avec spa de luxe, piscine infini, restaurant gourmet et plage privée.", price: "À partir de 124€/nuit", phone: "+261 32 07 542 89", img: "https://images.unsplash.com/photo-1571896349842-e4e0a7552e3c?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Diego-Suarez", title: "Lotus Hotel", desc: "Hôtel budget idéal pour les voyageurs économes. Propre, simple et accueillant.", price: "À partir de 9€/nuit", phone: "+261 32 04 521 47", img: "https://images.unsplash.com/photo-1605559424843-9e4c3ca3806d?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Diego-Suarez", title: "Hotel Le Colbert", desc: "Hôtel 3 étoiles central, avec service attentif et bonne cuisine. Excellent rapport qualité-prix.", price: "À partir de 37€/nuit", phone: "+261 34 05 524 33", img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Diego-Suarez", title: "Le Jardin Exotique", desc: "Hôtel 3-4 étoiles avec jardins tropicaux, piscine et restaurant. Atmosphère raffinée.", price: "À partir de 70€/nuit", phone: "+261 32 05 647 82", img: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80" },
+            { category: "Hôtel", location: "Diego-Suarez", title: "Grand Hotel Diego", desc: "Hôtel 4 étoiles luxe avec vue panoramique sur le port. Service premium et confort supérieur.", price: "À partir de 113€/nuit", phone: "+261 34 05 528 94", img: "https://images.unsplash.com/photo-1518991669328-0bfc6b186340?auto=format&fit=crop&w=800&q=80" },
+            { category: "Location", location: "Nosy Be", title: "Location Quad 300cc", desc: "Quad puissant 2 places équipé de casques de sécurité et gilets. Explorez l'île en toute liberté et sécurité.", price: "50€ / jour", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80" },
+            { category: "Location", location: "Nosy Be", title: "Location Moto/Scooter 125cc", desc: "Motos et scooters bien entretenus pour explorer l'île. Casques et assurance inclus. Modèles légers et faciles.", price: "15€ / jour", phone: "+261 32 89 969 03", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80" },
+            { category: "Location", location: "Nosy Be", title: "Location VTT (Vélo Tout-Terrain)", desc: "VTT robustes et confortables pour explorer les pistes de l'île. Casques et accessoires fournis.", price: "12€ / jour", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "Réserve Naturelle de Lokobe", desc: "Découverte des lémuriens et forêt tropicale primaire. Visite guidée en groupe ou privée avec expert naturaliste.", price: "65€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "Hell-Ville & Marchés Traditionnels", desc: "Visite guidée du centre-ville, marchés traditionnels colorés, culture malgache et architecture locale.", price: "35€/pers (demi-journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1493857671505-72967e2e2760?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "Tour Complet de l'Île Nosy Be", desc: "Excursion complète : points de vue panoramiques, arbres sacrés, plages cachées, vie locale. Lunch inclus.", price: "45€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "Randonnée Trekking Nature", desc: "Exploration des paysages intérieurs, cascades, lagons, véhétation luxuriante. Guide naturiste expert.", price: "60-90€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1551632440-5d3ae9bd7ebc?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "Jardins Ylang-Ylang & Distillerie", desc: "Visite des jardins de fleurs exotiques, démonstration de distillation, achat de produits locaux authentiques.", price: "40€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1469873212035-56ceb8ff4d3f?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Tanikely", title: "🏝️ Parc Marin Nosy Tanikely", desc: "L'aquarium naturel ! Snorkeling magnifique, phare historique, observation de poissons tropicaux, tortues marines. Réserve marine protégée.", price: "55€/pers (journée complète)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Komba", title: "Nosy Komba & Tanikely Combo", desc: "Deux îles en une journée ! Lémuriens de Komba + snorkeling extraordinaire à Tanikely. Repas, guide et matériel inclus.", price: "60€/pers (journée complète)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Sakatia", title: "Île Nosy Sakatia - Snorkeling", desc: "Île paradisiaque avec plages vierges, snorkeling avec tortues marines, poissons colorés, ambiance tropicale.", price: "45€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Iranja", title: "Île Nosy Iranja - Paradis", desc: "L'île paradisiaque ! Snorkeling extraordinaire, croisière scenic, sable blanc, eau cristalline. Lunch pique-nique inclus.", price: "60€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "Combo 2 Îles - Tanikely + Sakatia", desc: "Deux îles magnifiques en une excursion ! Snorkeling complet, lunch, guide expert, matériel inclus.", price: "95€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "🛥️ Bateau Privé 1-5 Personnes", desc: "Bateau privé pour votre groupe ! Snorkeling aux meilleurs spots, repas raffiné à bord, service VIP, flexibilité totale.", price: "260€/bateau (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "🛥️ Bateau Privé 6-10 Personnes", desc: "Grand bateau privé pour groupe ! Snorkeling premium, lunch gastronomique, guide personnel, confort et flexibilité.", price: "300€/bateau (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "🤿 Baptême de Plongée (1 Plongée)", desc: "Votre première plongée ! Cours en piscine ou en eau peu profonde. Accompagnement instructeur expert. Brevet PADI.", price: "55-65€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "🤿 Baptême de Plongée (2 Plongées)", desc: "Deux plongées pour bien débuter ! Exploration des fonds marins, découverte de la faune multicolore.", price: "90-100€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "🤿 Pack 2 Plongées (Brevetés)", desc: "Pour plongeurs brevetés. Exploration des plus beaux spots, faune exceptionnelle, coraux, jardins de corail.", price: "75-85€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "🤿 Pack 4 Plongées (Brevetés)", desc: "Séjour découverte en plongée. Exploration intensive, apprentissage avancé, spots exclusifs.", price: "146-166€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "🐋 Safari Baleines & Requins-Baleine", desc: "Observation des géantes créatures marines (juin-septembre). Expérience inoubliable, photos spectaculaires.", price: "60€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" },
+            { category: "Excursion", location: "Nosy Be", title: "Multi-Îles Mitsio/Radama (2-3j)", desc: "Expédition complète : bivouac naturel, guide expert, snorkeling, observation faune. Tout compris.", price: "90-110€/pers/jour", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" }
         ];
 
         let items = JSON.parse(localStorage.getItem('guide_items')) || defaultData;
@@ -461,6 +323,7 @@
             items.forEach((item, index) => {
                 if (currentFilter === 'all' || item.category === currentFilter) {
                     const waLink = getWhatsAppLink(item.title, item.location);
+                    const deleteBtn = currentUser === 'admin' ? `<button class="btn-delete" onclick="deleteCard(${index})">🗑️ Supprimer</button>` : '';
                     container.innerHTML += `
                         <div class="card">
                             <img class="card-img" src="${item.img}" alt="${item.title}">
@@ -473,18 +336,21 @@
                                 <a href="${waLink}" target="_blank" class="btn-wa">
                                     <i class="fab fa-whatsapp"></i> Réserver / Demander Info
                                 </a>
-                                <button class="btn-delete" onclick="deleteCard(${index})">🗑️ Supprimer</button>
+                                ${deleteBtn}
                             </div>
                         </div>`;
                 }
             });
         }
 
+        function updateCardDisplay() {
+            render();
+        }
+
         // Filtrer par catégorie
         function filterCat(cat) { 
             currentFilter = cat; 
             render();
-            // Mettre à jour les boutons actifs
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -493,6 +359,8 @@
 
         // Ajouter une nouvelle offre
         function addCard() {
+            if (currentUser !== 'admin') return;
+            
             const cat = document.getElementById('form-cat').value;
             const title = document.getElementById('form-title').value;
             const desc = document.getElementById('form-desc').value;
@@ -508,7 +376,6 @@
             items.push({ category: cat, location: "Nosy Be", title: title, desc: desc, price: price, phone: phone, img: img });
             localStorage.setItem('guide_items', JSON.stringify(items));
             
-            // Réinitialiser le formulaire
             document.getElementById('form-cat').value = 'Hôtel';
             document.getElementById('form-title').value = '';
             document.getElementById('form-desc').value = '';
@@ -523,6 +390,8 @@
 
         // Supprimer une offre
         function deleteCard(index) {
+            if (currentUser !== 'admin') return;
+            
             if (confirm('Êtes-vous sûr de vouloir supprimer cette offre?')) {
                 items.splice(index, 1);
                 localStorage.setItem('guide_items', JSON.stringify(items));
@@ -531,7 +400,6 @@
         }
 
         // Initialisation
-        loadSettings();
         render();
     </script>
 </body>
