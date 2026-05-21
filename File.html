@@ -9,13 +9,13 @@
         :root { --primary: #064e3b; --secondary: #10b981; --dark: #1f2937; --light: #f9fafb; --danger: #dc2626; --police-color: #1d4ed8; --wa-color: #25d366; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--light); color: var(--dark); padding-bottom: 30px; }
-        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         header h1 { font-size: 1.8rem; margin: 0; }
         .emergency-banner { background-color: #fef2f2; border: 2px solid #fca5a5; border-radius: 12px; margin: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .emergency-title { color: var(--danger); font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; justify-content: center; }
         .zone-title { font-size: 0.85rem; text-transform: uppercase; color: #7f1d1d; font-weight: 700; margin-top: 10px; margin-bottom: 6px; border-bottom: 1px solid #fee2e2; padding-bottom: 2px; }
         .emergency-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 10px; }
-        .btn-urgency { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: bold; border: none; cursor: pointer; transition: all 0.2s; }
+        .btn-urgency { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
         .btn-urgency:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
         .btn-call { background-color: var(--danger); }
         .btn-police { background-color: var(--police-color); }
@@ -30,9 +30,10 @@
         .card-body { padding: 15px; }
         .card-tag { font-size: 0.75rem; color: var(--secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
         .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-        .card-desc { font-size: 0.85rem; color: #4b5563; margin-bottom: 12px; }
+        .card-desc { font-size: 0.85rem; color: #4b5563; margin-bottom: 8px; line-height: 1.4; }
+        .card-phone { font-size: 0.8rem; color: #666; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
         .card-price { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
-        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: all 0.2s; }
+        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: bold; transition: all 0.2s; }
         .btn-wa:hover { opacity: 0.9; transform: scale(1.02); }
         .btn-delete { background-color: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
         .btn-delete:hover { opacity: 0.8; }
@@ -43,7 +44,7 @@
         .settings-panel { display: none; background-color: #e0f2fe; margin: 15px; padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary); }
         .settings-title { font-size: 1rem; font-weight: bold; margin-bottom: 15px; color: var(--primary); }
         .btn-settings { background-color: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
-        .action-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+        .action-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
     </style>
 </head>
 <body>
@@ -93,7 +94,7 @@
         <textarea id="form-desc" placeholder="Description détaillée"></textarea>
         <input type="text" id="form-price" placeholder="Prix (ex: 35€ / jour)">
         <input type="text" id="form-img" placeholder="URL de l'image directe">
-        <input type="text" id="form-wa" placeholder="Numéro WhatsApp (optionnel, ex: 261377842473)">
+        <input type="text" id="form-phone" placeholder="Téléphone (optionnel)">
         <button class="btn-submit" onclick="addCard()">📤 Mettre en ligne</button>
         <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('admin-panel').style.display='none'">Annuler</button>
     </div>
@@ -101,7 +102,7 @@
     <!-- Panneau de paramètres WhatsApp -->
     <div class="settings-panel" id="settings-panel">
         <div class="settings-title">⚙️ Paramètres de Contact WhatsApp</div>
-        <label style="font-weight: bold; margin-bottom: 8px; display: block;">Numéro WhatsApp par défaut (sans +):</label>
+        <label style="font-weight: bold; margin-bottom: 8px; display: block;">Votre Numéro WhatsApp (sans +):</label>
         <input type="text" id="default-wa" placeholder="261377842473" value="">
         <label style="font-weight: bold; margin-top: 12px; margin-bottom: 8px; display: block;">Message de réservation par défaut:</label>
         <textarea id="default-message" placeholder="Bonjour, j'aimerais réserver..." style="height: 100px;"></textarea>
@@ -113,34 +114,152 @@
         // Configuration WhatsApp
         let whatsappConfig = JSON.parse(localStorage.getItem('wa_config')) || {
             defaultNumber: '261377842473',
-            defaultMessage: 'Bonjour, j\'aimerais en savoir plus sur cette offre.',
+            defaultMessage: 'Bonjour 👋, j\'aimerais réserver cette offre. Quelles sont les disponibilités et conditions?',
             emergencyNumber: '261377842473'
         };
 
         const defaultData = [
+            // ========== HÔTELS NOSY BE ==========
             { 
-                category: "Excursion", 
-                title: "Réserve Naturelle de Lokobe", 
-                desc: "Découverte des lémuriens et forêt tropicale. Visite guidée en groupe ou privée.",
-                price: "Sur Devis", 
-                img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
-                wa: ''
+                category: "Hôtel", 
+                location: "Nosy Be",
+                title: "Cambria Hotel", 
+                desc: "Hôtel budget confortable, accueil chaleureux, idéal pour voyageurs en quête d'économies.",
+                price: "À partir de 23€/nuit", 
+                phone: "+261 32 07 210 79",
+                img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80"
             },
             { 
                 category: "Hôtel", 
-                title: "Complejo Turístico Sakalava", 
-                desc: "Hôtel 3 étoiles face à la mer avec piscine et restaurant gastronomique.",
-                price: "À partir de 85€", 
-                img: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80",
-                wa: ''
+                location: "Nosy Be",
+                title: "Villa Mia", 
+                desc: "Petit hôtel chaleureux avec terrasse vue sur mer. Atmosphère familiale et authentique.",
+                price: "À partir de 32€/nuit", 
+                phone: "+261 32 78 945 21",
+                img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                category: "Hôtel", 
+                location: "Nosy Be",
+                title: "Tropical Paradise", 
+                desc: "Hôtel 3 étoiles avec piscine, restaurant et bar. Service de qualité, bonne localisation.",
+                price: "À partir de 42€/nuit", 
+                phone: "+261 34 05 700 44",
+                img: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                category: "Hôtel", 
+                location: "Nosy Be",
+                title: "Holiday Beach Hotel", 
+                desc: "Hôtel 3 étoiles face à la plage avec accès direct à la mer, restaurant et loisirs nautiques.",
+                price: "À partir de 50€/nuit", 
+                phone: "+261 32 05 621 14",
+                img: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                category: "Hôtel", 
+                location: "Nosy Be",
+                title: "Clair de Lune", 
+                desc: "Hôtel 3-4 étoiles, confortable avec vue panoramique. Piscine, spa et restaurant gastronomique.",
+                price: "À partir de 60€/nuit", 
+                phone: "+261 34 05 705 55",
+                img: "https://images.unsplash.com/photo-1518991669328-0bfc6b186340?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                category: "Hôtel", 
+                location: "Nosy Be",
+                title: "Loharano Lodge", 
+                desc: "Hôtel 4 étoiles luxe avec vue mer spectaculaire, spa premium et service haut de gamme.",
+                price: "À partir de 104€/nuit", 
+                phone: "+261 32 04 851 63",
+                img: "https://images.unsplash.com/photo-1562576633-055ee5dbb183?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                category: "Hôtel", 
+                location: "Nosy Be",
+                title: "Vanila Hotel & Spa", 
+                desc: "Hôtel 5 étoiles avec spa de luxe, piscine infini, restaurant gourmet et plage privée.",
+                price: "À partir de 124€/nuit", 
+                phone: "+261 32 07 542 89",
+                img: "https://images.unsplash.com/photo-1571896349842-e4e0a7552e3c?auto=format&fit=crop&w=800&q=80"
+            },
+
+            // ========== HÔTELS DIEGO-SUAREZ ==========
+            { 
+                category: "Hôtel", 
+                location: "Diego-Suarez",
+                title: "Lotus Hotel", 
+                desc: "Hôtel budget idéal pour les voyageurs économes. Propre, simple et accueillant.",
+                price: "À partir de 9€/nuit", 
+                phone: "+261 32 04 521 47",
+                img: "https://images.unsplash.com/photo-1605559424843-9e4c3ca3806d?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                category: "Hôtel", 
+                location: "Diego-Suarez",
+                title: "Hotel Le Colbert", 
+                desc: "Hôtel 3 étoiles central, avec service attentif et bonne cuisine. Excellent rapport qualité-prix.",
+                price: "À partir de 37€/nuit", 
+                phone: "+261 34 05 524 33",
+                img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                category: "Hôtel", 
+                location: "Diego-Suarez",
+                title: "Le Jardin Exotique", 
+                desc: "Hôtel 3-4 étoiles avec jardins tropicaux, piscine et restaurant. Atmosphère raffinée.",
+                price: "À partir de 70€/nuit", 
+                phone: "+261 32 05 647 82",
+                img: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                category: "Hôtel", 
+                location: "Diego-Suarez",
+                title: "Grand Hotel Diego", 
+                desc: "Hôtel 4 étoiles luxe avec vue panoramique sur le port. Service premium et confort supérieur.",
+                price: "À partir de 113€/nuit", 
+                phone: "+261 34 05 528 94",
+                img: "https://images.unsplash.com/photo-1518991669328-0bfc6b186340?auto=format&fit=crop&w=800&q=80"
+            },
+
+            // ========== LOCATIONS ==========
+            { 
+                category: "Location", 
+                location: "Nosy Be",
+                title: "Location Quad 300cc", 
+                desc: "Quad puissant 2 places équipé de casques de sécurité et gilets. Explorez l'île en toute liberté et sécurité.",
+                price: "50€ / jour", 
+                phone: "+261 32 07 210 79",
+                img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
             },
             { 
                 category: "Location", 
-                title: "Location Quads & Motos", 
-                desc: "Explorez l'île en totale liberté. Équipement de sécurité fourni.",
-                price: "35€ / jour", 
-                img: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80",
-                wa: ''
+                location: "Nosy Be",
+                title: "Location Moto/Scooter 125cc", 
+                desc: "Motos et scooters bien entretenus pour explorer l'île. Casques et assurance inclus. Modèles légers et faciles.",
+                price: "15€ / jour", 
+                phone: "+261 32 89 969 03",
+                img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
+            },
+            { 
+                category: "Location", 
+                location: "Nosy Be",
+                title: "Location VTT (Vélo Tout-Terrain)", 
+                desc: "VTT robustes et confortables pour explorer les pistes de l'île. Casques et accessoires fournis.",
+                price: "12€ / jour", 
+                phone: "+261 32 07 210 79",
+                img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
+            },
+
+            // ========== EXCURSION EXISTANTE ==========
+            { 
+                category: "Excursion", 
+                location: "Nosy Be",
+                title: "Réserve Naturelle de Lokobe", 
+                desc: "Découverte des lémuriens et forêt tropicale primaire. Visite guidée en groupe ou privée avec expert naturaliste.",
+                price: "Sur Devis", 
+                phone: "+261 32 07 210 79",
+                img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80"
             }
         ];
 
@@ -163,9 +282,9 @@
         }
 
         // Générer lien WhatsApp
-        function getWhatsAppLink(itemTitle, whatsappNumber = null) {
-            const number = whatsappNumber || whatsappConfig.defaultNumber;
-            const message = `Bonjour 👋, j'aimerais en savoir plus sur: *${itemTitle}*`;
+        function getWhatsAppLink(itemTitle, location = '') {
+            const number = whatsappConfig.defaultNumber;
+            const message = `Bonjour 👋, j'aimerais réserver: *${itemTitle}*${location ? ' (' + location + ')' : ''}. Quelles sont les disponibilités et conditions?`;
             const encodedMessage = encodeURIComponent(message);
             return `https://api.whatsapp.com/send?phone=${number}&text=${encodedMessage}`;
         }
@@ -182,7 +301,7 @@
             container.innerHTML = '';
             items.forEach((item, index) => {
                 if (currentFilter === 'all' || item.category === currentFilter) {
-                    const waLink = getWhatsAppLink(item.title, item.wa);
+                    const waLink = getWhatsAppLink(item.title, item.location);
                     container.innerHTML += `
                         <div class="card">
                             <img class="card-img" src="${item.img}" alt="${item.title}">
@@ -190,9 +309,10 @@
                                 <div class="card-tag">${item.category}</div>
                                 <h3 class="card-title">${item.title}</h3>
                                 <p class="card-desc">${item.desc}</p>
+                                ${item.phone ? `<div class="card-phone">📞 ${item.phone}</div>` : ''}
                                 <div class="card-price">${item.price}</div>
                                 <a href="${waLink}" target="_blank" class="btn-wa">
-                                    <i class="fab fa-whatsapp"></i> Réserver via WhatsApp
+                                    <i class="fab fa-whatsapp"></i> Réserver / Demander Info
                                 </a>
                                 <button class="btn-delete" onclick="deleteCard(${index})">🗑️ Supprimer</button>
                             </div>
@@ -219,14 +339,14 @@
             const desc = document.getElementById('form-desc').value;
             const price = document.getElementById('form-price').value;
             const img = document.getElementById('form-img').value;
-            const wa = document.getElementById('form-wa').value;
+            const phone = document.getElementById('form-phone').value;
 
             if (!title || !desc || !price || !img) {
                 alert('⚠️ Remplissez tous les champs obligatoires!');
                 return;
             }
 
-            items.push({ category: cat, title: title, desc: desc, price: price, img: img, wa: wa });
+            items.push({ category: cat, location: "Nosy Be", title: title, desc: desc, price: price, phone: phone, img: img });
             localStorage.setItem('guide_items', JSON.stringify(items));
             
             // Réinitialiser le formulaire
@@ -235,7 +355,7 @@
             document.getElementById('form-desc').value = '';
             document.getElementById('form-price').value = '';
             document.getElementById('form-img').value = '';
-            document.getElementById('form-wa').value = '';
+            document.getElementById('form-phone').value = '';
             
             render();
             alert('✅ Offre ajoutée avec succès!');
