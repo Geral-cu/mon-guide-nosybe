@@ -26,7 +26,7 @@
         .login-form button:hover { background-color: #022c22; }
         .login-message { text-align: center; margin-top: 15px; font-size: 0.9rem; color: #666; }
         
-        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; display: flex; align-items: center; justify-content: space-between; }
+        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; display: flex; align-items: center; gap: 20px; }
         header h1 { font-size: 1.8rem; margin: 0; flex: 1; }
         .header-right { display: flex; gap: 10px; align-items: center; }
         .user-badge { background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; }
@@ -49,16 +49,20 @@
         .container { padding: 10px 15px; display: grid; gap: 15px; }
         .card { background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; position: relative; }
         
-        /* GALERIE D'IMAGES */
+        /* GALERIE D'IMAGES ET VIDÉOS */
         .card-gallery { position: relative; width: 100%; height: 180px; background-color: #e5e7eb; overflow: hidden; }
         .card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .card-video { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .card-video.active { display: block; }
+        .card-img.hidden { display: none; }
         .gallery-counter { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
         .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 8px; pointer-events: none; }
-        .gallery-nav button { background: rgba(0,0,0,0.5); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; pointer-events: all; transition: all 0.2s; }
+        .gallery-nav button { background: rgba(0,0,0,0.5); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; pointer-events: all; transition: all 0.2s; }
         .gallery-nav button:hover { background: rgba(0,0,0,0.8); }
         .gallery-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; }
         .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.2s; }
         .dot.active { background: white; width: 16px; border-radius: 3px; }
+        .media-badge { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
         
         .card-body { padding: 15px; }
         .card-tag { font-size: 0.75rem; color: var(--secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
@@ -66,14 +70,21 @@
         .card-desc { font-size: 0.85rem; color: #4b5563; margin-bottom: 8px; line-height: 1.4; }
         .card-phone { font-size: 0.8rem; color: #666; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
         .card-price { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
-        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.2s; cursor: pointer; }
+        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.2s; }
         .btn-wa:hover { opacity: 0.9; transform: scale(1.02); }
         .btn-delete { background-color: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; margin-top: 8px; width: 100%; }
         .btn-delete:hover { opacity: 0.8; }
+        
+        /* LOADING */
+        .loading { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
         .admin-panel { display: none; background-color: #f3f4f6; margin: 15px; padding: 15px; border-radius: 12px; }
         .admin-panel input, .admin-panel textarea, .admin-panel select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 0.95rem; }
         .btn-submit { background-color: var(--primary); color: white; padding: 10px; width: 100%; border-radius: 6px; border: none; font-weight: bold; margin-top: 5px; cursor: pointer; transition: all 0.2s; }
         .btn-submit:hover { background-color: #022c22; }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        
         .settings-panel { display: none; background-color: #e0f2fe; margin: 15px; padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary); }
         .settings-title { font-size: 1rem; font-weight: bold; margin-bottom: 15px; color: var(--primary); }
         .btn-settings { background-color: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
@@ -85,10 +96,11 @@
         .images-hint { font-size: 0.8rem; color: #666; margin-bottom: 8px; font-style: italic; }
         .add-image-btn { background-color: #0891b2; color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
         .add-image-btn:hover { background-color: #0e7490; }
-        .image-input-group { display: flex; gap: 8px; margin-bottom: 8px; }
-        .image-input-group input { flex: 1; }
         .remove-img-btn { background-color: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
         .remove-img-btn:hover { background-color: #dc2626; }
+        
+        .error-message { background-color: #fee2e2; border: 1px solid #fca5a5; color: #7f1d1d; padding: 10px; border-radius: 6px; margin-bottom: 10px; }
+        .success-message { background-color: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 10px; border-radius: 6px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -159,13 +171,14 @@
         <div style="text-align:center; margin: 20px;">
             <div class="action-buttons admin-only" id="admin-actions">
                 <button class="btn-settings" onclick="document.getElementById('admin-panel').style.display='block'">➕ Ajouter une offre</button>
-                <button class="btn-settings" onclick="document.getElementById('settings-panel').style.display='block'">⚙️ Paramètres WhatsApp</button>
+                <button class="btn-settings" onclick="document.getElementById('settings-panel').style.display='block'">⚙️ Paramètres</button>
             </div>
         </div>
 
         <!-- Panneau d'ajout d'offres -->
         <div class="admin-panel admin-only" id="admin-panel">
-            <h3 style="margin-bottom: 15px;">Ajouter une nouvelle offre</h3>
+            <h3 style="margin-bottom: 15px;">➕ Ajouter une nouvelle offre</h3>
+            <div id="admin-message"></div>
             <select id="form-cat">
                 <option value="Hôtel">🏨 Hôtel</option>
                 <option value="Excursion">🏝️ Excursion</option>
@@ -177,31 +190,68 @@
             <input type="text" id="form-phone" placeholder="Téléphone (optionnel)">
             
             <!-- Gestion des images -->
-            <label class="images-input-label">📸 Ajouter des images</label>
+            <label class="images-input-label">📸 Ajouter des images (URLs)</label>
             <div class="images-hint">Collez les URLs des images (une par ligne)</div>
-            <textarea id="form-images" placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg&#10;https://example.com/photo3.jpg" style="height: 80px;"></textarea>
+            <textarea id="form-images" placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg" style="height: 80px;"></textarea>
             
-            <button class="btn-submit" onclick="addCard()">📤 Mettre en ligne</button>
+            <!-- Gestion des vidéos -->
+            <label class="images-input-label">🎥 Ajouter des vidéos (URLs)</label>
+            <div class="images-hint">Collez les URLs des vidéos (YouTube, Vimeo, ou MP4 direct) - une par ligne</div>
+            <textarea id="form-videos" placeholder="https://www.youtube.com/embed/VIDEO_ID&#10;https://example.com/video.mp4" style="height: 80px;"></textarea>
+            
+            <button class="btn-submit" id="add-btn" onclick="addCard()">📤 Mettre en ligne</button>
             <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('admin-panel').style.display='none'">Annuler</button>
         </div>
 
-        <!-- Panneau de paramètres WhatsApp -->
+        <!-- Panneau de paramètres -->
         <div class="settings-panel admin-only" id="settings-panel">
-            <div class="settings-title">⚙️ Paramètres de Contact WhatsApp</div>
-            <label style="font-weight: bold; margin-bottom: 8px; display: block;">Votre Numéro WhatsApp (sans +):</label>
+            <div class="settings-title">⚙️ Configuration Firebase</div>
+            <div id="settings-message"></div>
+            <label style="font-weight: bold; margin-bottom: 8px; display: block;">🔑 Clé API Firebase:</label>
+            <input type="text" id="firebase-api-key" placeholder="Votre clé API">
+            <label style="font-weight: bold; margin-top: 12px; margin-bottom: 8px; display: block;">📧 Email du projet Firebase:</label>
+            <input type="text" id="firebase-email" placeholder="votre-email@project.iam.gserviceaccount.com">
+            
+            <label style="font-weight: bold; margin-top: 12px; margin-bottom: 8px; display: block;">📱 Numéro WhatsApp (sans +):</label>
             <input type="text" id="default-wa" placeholder="261377842473" value="">
-            <label style="font-weight: bold; margin-top: 12px; margin-bottom: 8px; display: block;">Message de réservation par défaut:</label>
-            <textarea id="default-message" placeholder="Bonjour, j'aimerais réserver..." style="height: 100px;"></textarea>
+            <label style="font-weight: bold; margin-top: 12px; margin-bottom: 8px; display: block;">💬 Message de réservation par défaut:</label>
+            <textarea id="default-message" placeholder="Bonjour, j'aimerais réserver..." style="height: 80px;"></textarea>
             <button class="btn-submit" onclick="saveSettings()">💾 Enregistrer les paramètres</button>
             <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('settings-panel').style.display='none'">Fermer</button>
         </div>
     </div>
 
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"></script>
+
     <script>
-        // ========== SYSTÈME D'AUTHENTIFICATION ==========
-        const ADMIN_CODE = '1234'; // ⚠️ À CHANGER AVEC VOTRE CODE PERSONNEL
+        // ========== CONFIGURATION FIREBASE ==========
+        // ⚠️ IMPORTANTE: Remplacez ces valeurs par les vôtres depuis https://console.firebase.google.com
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyDc2d8xxxxxxxxxxxxxxxxxxxxxxxx", // À remplacer
+            authDomain: "madagascar-guide.firebaseapp.com", // À remplacer
+            projectId: "madagascar-guide", // À remplacer
+            storageBucket: "madagascar-guide.appspot.com", // À remplacer
+        };
+
+        const ADMIN_CODE = '1234'; // ⚠️ À CHANGER
         let currentUser = null;
+        let db = null;
+        let items = [];
+        let currentFilter = 'all';
+        let galleryState = {};
         
+        // Initialiser Firebase
+        try {
+            firebase.initializeApp(FIREBASE_CONFIG);
+            db = firebase.firestore();
+            console.log('✅ Firebase initialisé');
+        } catch (error) {
+            console.error('❌ Erreur Firebase:', error);
+        }
+
+        // ========== AUTHENTIFICATION ==========
         function selectRole(role) {
             document.getElementById('client-btn').classList.remove('selected');
             document.getElementById('admin-btn').classList.remove('selected');
@@ -247,11 +297,12 @@
                 document.getElementById('admin-actions').classList.add('visible');
                 document.getElementById('admin-panel').classList.add('visible');
                 document.getElementById('settings-panel').classList.add('visible');
+                loadSettings();
             } else {
                 document.getElementById('user-role').textContent = '👤 Client';
             }
             
-            updateCardDisplay();
+            loadItemsFromFirebase();
         }
         
         function logout() {
@@ -264,40 +315,119 @@
                 selectRole('client');
             }
         }
-        
-        // ========== CONFIGURATION ET DONNÉES ==========
+
+        // ========== FIREBASE OPERATIONS ==========
+        async function loadItemsFromFirebase() {
+            try {
+                if (!db) return;
+                const snapshot = await db.collection('guide_items').get();
+                items = [];
+                snapshot.forEach(doc => {
+                    items.push({ id: doc.id, ...doc.data() });
+                });
+                render();
+            } catch (error) {
+                console.error('Erreur lors du chargement:', error);
+            }
+        }
+
+        async function addCard() {
+            if (currentUser !== 'admin' || !db) {
+                alert('❌ Vous n\'êtes pas autorisé');
+                return;
+            }
+            
+            const cat = document.getElementById('form-cat').value;
+            const title = document.getElementById('form-title').value;
+            const desc = document.getElementById('form-desc').value;
+            const price = document.getElementById('form-price').value;
+            const phone = document.getElementById('form-phone').value;
+            const imagesText = document.getElementById('form-images').value;
+            const videosText = document.getElementById('form-videos').value;
+            
+            const images = imagesText.split('\n').map(url => url.trim()).filter(url => url.length > 0);
+            const videos = videosText.split('\n').map(url => url.trim()).filter(url => url.length > 0);
+
+            if (!title || !desc || !price || (images.length === 0 && videos.length === 0)) {
+                alert('⚠️ Remplissez tous les champs!\n- Au moins une image OU vidéo est requise');
+                return;
+            }
+
+            const btn = document.getElementById('add-btn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Envoi...';
+
+            try {
+                await db.collection('guide_items').add({
+                    category: cat,
+                    location: "Nosy Be",
+                    title: title,
+                    desc: desc,
+                    price: price,
+                    phone: phone,
+                    images: images,
+                    videos: videos,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                });
+
+                // Réinitialiser le formulaire
+                document.getElementById('form-cat').value = 'Hôtel';
+                document.getElementById('form-title').value = '';
+                document.getElementById('form-desc').value = '';
+                document.getElementById('form-price').value = '';
+                document.getElementById('form-images').value = '';
+                document.getElementById('form-videos').value = '';
+                document.getElementById('form-phone').value = '';
+                
+                btn.disabled = false;
+                btn.textContent = '📤 Mettre en ligne';
+                alert('✅ Offre ajoutée avec succès! Les autres utilisateurs la voient maintenant.');
+                document.getElementById('admin-panel').style.display = 'none';
+                
+                loadItemsFromFirebase();
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('❌ Erreur: ' + error.message);
+                btn.disabled = false;
+                btn.textContent = '📤 Mettre en ligne';
+            }
+        }
+
+        async function deleteCard(index) {
+            if (currentUser !== 'admin' || !db) return;
+            
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette offre?')) {
+                try {
+                    await db.collection('guide_items').doc(items[index].id).delete();
+                    galleryState = {};
+                    loadItemsFromFirebase();
+                } catch (error) {
+                    alert('❌ Erreur: ' + error.message);
+                }
+            }
+        }
+
+        // ========== PARAMÈTRES ==========
         let whatsappConfig = JSON.parse(localStorage.getItem('wa_config')) || {
             defaultNumber: '261377842473',
             defaultMessage: 'Bonjour 👋, j\'aimerais réserver cette offre. Quelles sont les disponibilités et conditions?',
             emergencyNumber: '261377842473'
         };
 
-        const defaultData = [
-            { category: "Hôtel", location: "Nosy Be", title: "Cambria Hotel", desc: "Hôtel budget confortable, accueil chaleureux, idéal pour voyageurs en quête d'économies.", price: "À partir de 25€/nuit", images: ["https://via.placeholder.com/400x300?text=Cambria+Hotel"] },
-            { category: "Hôtel", location: "Nosy Be", title: "Villa Mia", desc: "Petit hôtel chaleureux avec terrasse vue sur mer. Atmosphère familiale et authentique.", price: "À partir de 32€/nuit", images: ["https://via.placeholder.com/400x300?text=Villa+Mia"] },
-            { category: "Hôtel", location: "Nosy Be", title: "Tropical Paradise", desc: "Hôtel 3 étoiles avec piscine, restaurant et bar. Service de qualité, bonne localisation.", price: "À partir de 50€/nuit", images: ["https://via.placeholder.com/400x300?text=Tropical+Paradise"] },
-        ];
-
-        let items = JSON.parse(localStorage.getItem('guide_items')) || defaultData;
-        let currentFilter = 'all';
-        let galleryState = {}; // Suivi de l'image active pour chaque carte
-
-        // Charger les paramètres
         function loadSettings() {
             document.getElementById('default-wa').value = whatsappConfig.defaultNumber;
             document.getElementById('default-message').value = whatsappConfig.defaultMessage;
         }
 
-        // Sauvegarder les paramètres
         function saveSettings() {
             whatsappConfig.defaultNumber = document.getElementById('default-wa').value || '261377842473';
             whatsappConfig.defaultMessage = document.getElementById('default-message').value;
             localStorage.setItem('wa_config', JSON.stringify(whatsappConfig));
-            alert('✅ Paramètres WhatsApp mis à jour!');
+            alert('✅ Paramètres mis à jour!');
             document.getElementById('settings-panel').style.display = 'none';
         }
 
-        // Générer lien WhatsApp
         function getWhatsAppLink(itemTitle, location = '') {
             const number = whatsappConfig.defaultNumber;
             const message = `Bonjour 👋, j'aimerais réserver: *${itemTitle}*${location ? ' (' + location + ')' : ''}. Quelles sont les disponibilités et conditions?`;
@@ -305,87 +435,116 @@
             return `https://api.whatsapp.com/send?phone=${number}&text=${encodedMessage}`;
         }
 
-        // Signaler une urgence par WhatsApp
         function sendWhatsAppUrgency() {
             const message = encodeURIComponent('⚠️ URGENCE: J\'ai besoin d\'aide immédiate à Madagascar Nord');
             window.location.href = `https://api.whatsapp.com/send?phone=${whatsappConfig.emergencyNumber}&text=${message}`;
         }
 
-        // Navigation galerie
-        function nextImage(index) {
+        // ========== GALERIE ==========
+        function nextMedia(index) {
             const item = items[index];
-            if (!item.images || item.images.length === 0) return;
+            const allMedia = [...(item.images || []), ...(item.videos || [])];
+            if (allMedia.length === 0) return;
             if (!galleryState[index]) galleryState[index] = 0;
-            galleryState[index] = (galleryState[index] + 1) % item.images.length;
+            galleryState[index] = (galleryState[index] + 1) % allMedia.length;
             updateGallery(index);
         }
 
-        function prevImage(index) {
+        function prevMedia(index) {
             const item = items[index];
-            if (!item.images || item.images.length === 0) return;
+            const allMedia = [...(item.images || []), ...(item.videos || [])];
+            if (allMedia.length === 0) return;
             if (!galleryState[index]) galleryState[index] = 0;
-            galleryState[index] = (galleryState[index] - 1 + item.images.length) % item.images.length;
+            galleryState[index] = (galleryState[index] - 1 + allMedia.length) % allMedia.length;
             updateGallery(index);
         }
 
-        function goToImage(itemIndex, imageIndex) {
-            galleryState[itemIndex] = imageIndex;
+        function goToMedia(itemIndex, mediaIndex) {
+            galleryState[itemIndex] = mediaIndex;
             updateGallery(itemIndex);
         }
 
         function updateGallery(index) {
             const item = items[index];
-            if (!item.images || item.images.length === 0) return;
+            const images = item.images || [];
+            const videos = item.videos || [];
+            const allMedia = [...images, ...videos];
             
-            const currentImageIdx = galleryState[index] || 0;
+            if (allMedia.length === 0) return;
+            
+            const currentMediaIdx = galleryState[index] || 0;
+            const media = allMedia[currentMediaIdx];
+            const isVideo = currentMediaIdx >= images.length;
+            
             const imgElement = document.querySelector(`[data-card-index="${index}"] .card-img`);
-            if (imgElement) {
-                imgElement.src = item.images[currentImageIdx];
+            const videoElement = document.querySelector(`[data-card-index="${index}"] .card-video`);
+            
+            if (isVideo) {
+                if (imgElement) imgElement.classList.add('hidden');
+                if (videoElement) {
+                    videoElement.classList.add('active');
+                    videoElement.src = media;
+                }
+            } else {
+                if (videoElement) videoElement.classList.remove('active');
+                if (imgElement) {
+                    imgElement.classList.remove('hidden');
+                    imgElement.src = media;
+                }
             }
             
             // Mettre à jour les points
             document.querySelectorAll(`[data-card-index="${index}"] .dot`).forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentImageIdx);
+                dot.classList.toggle('active', i === currentMediaIdx);
             });
             
             // Mettre à jour le compteur
             const counter = document.querySelector(`[data-card-index="${index}"] .gallery-counter`);
             if (counter) {
-                counter.textContent = `${currentImageIdx + 1}/${item.images.length}`;
+                counter.textContent = `${currentMediaIdx + 1}/${allMedia.length}`;
             }
         }
 
-        // Afficher les cartes
         function render() {
             let container = document.getElementById('cards-container');
             container.innerHTML = '';
+            
             items.forEach((item, index) => {
                 if (currentFilter === 'all' || item.category === currentFilter) {
                     const waLink = getWhatsAppLink(item.title, item.location);
                     const deleteBtn = currentUser === 'admin' ? `<button class="btn-delete" onclick="deleteCard(${index})">🗑️ Supprimer</button>` : '';
                     
-                    // Gérer les images
-                    const images = item.images && item.images.length > 0 ? item.images : ["https://via.placeholder.com/400x300?text=No+Image"];
-                    const hasMultipleImages = images.length > 1;
+                    const images = item.images || [];
+                    const videos = item.videos || [];
+                    const allMedia = [...images, ...videos];
                     
-                    // Construire les points de navigation
-                    const dotsHTML = images.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goToImage(${index}, ${i})"></div>`).join('');
+                    const hasNoMedia = allMedia.length === 0;
+                    const placeholders = hasNoMedia ? ["https://via.placeholder.com/400x300?text=No+Image"] : [];
+                    const displayMedia = allMedia.length > 0 ? allMedia : placeholders;
                     
-                    // Construire les boutons de navigation
-                    const navHTML = hasMultipleImages ? `
+                    const dotsHTML = displayMedia.map((_, i) => {
+                        const badge = i >= images.length ? '🎥' : '';
+                        return `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goToMedia(${index}, ${i})" title="${badge}">${badge}</div>`;
+                    }).join('');
+                    
+                    const navHTML = displayMedia.length > 1 ? `
                         <div class="gallery-nav">
-                            <button onclick="prevImage(${index})">❮</button>
-                            <button onclick="nextImage(${index})">❯</button>
+                            <button onclick="prevMedia(${index})">❮</button>
+                            <button onclick="nextMedia(${index})">❯</button>
                         </div>
                     ` : '';
+                    
+                    const mediaBadge = videos.length > 0 ? '<div class="media-badge">📸+🎥</div>' : '<div class="media-badge">📸</div>';
                     
                     container.innerHTML += `
                         <div class="card" data-card-index="${index}">
                             <div class="card-gallery">
-                                <img class="card-img" src="${images[0]}" alt="${item.title}">
-                                ${hasMultipleImages ? `<div class="gallery-counter">${1}/${images.length}</div>` : ''}
+                                <img class="card-img" src="${images[0] || placeholders[0]}" alt="${item.title}">
+                                <video class="card-video" controls style="width:100%; height:100%; object-fit: cover;"></video>
+                                ${displayMedia.length > 1 ? `<div class="gallery-counter">${1}/${displayMedia.length}</div>` : ''}
+                                ${mediaBadge}
                                 ${navHTML}
-                                ${hasMultipleImages ? `<div class="gallery-dots">${dotsHTML}</div>` : ''}
+                                ${displayMedia.length > 1 ? `<div class="gallery-dots">${dotsHTML}</div>` : ''}
                             </div>
                             <div class="card-body">
                                 <div class="card-tag">${item.category}</div>
@@ -403,11 +562,6 @@
             });
         }
 
-        function updateCardDisplay() {
-            render();
-        }
-
-        // Filtrer par catégorie
         function filterCat(cat) { 
             currentFilter = cat; 
             render();
@@ -417,66 +571,8 @@
             event.target.classList.add('active');
         }
 
-        // Ajouter une nouvelle offre
-        function addCard() {
-            if (currentUser !== 'admin') return;
-            
-            const cat = document.getElementById('form-cat').value;
-            const title = document.getElementById('form-title').value;
-            const desc = document.getElementById('form-desc').value;
-            const price = document.getElementById('form-price').value;
-            const phone = document.getElementById('form-phone').value;
-            const imagesText = document.getElementById('form-images').value;
-            
-            // Traiter les images
-            const images = imagesText
-                .split('\n')
-                .map(url => url.trim())
-                .filter(url => url.length > 0);
-
-            if (!title || !desc || !price || images.length === 0) {
-                alert('⚠️ Remplissez tous les champs obligatoires!\n- Au moins une image est requise');
-                return;
-            }
-
-            items.push({ 
-                category: cat, 
-                location: "Nosy Be", 
-                title: title, 
-                desc: desc, 
-                price: price, 
-                phone: phone, 
-                images: images 
-            });
-            localStorage.setItem('guide_items', JSON.stringify(items));
-            
-            // Réinitialiser le formulaire
-            document.getElementById('form-cat').value = 'Hôtel';
-            document.getElementById('form-title').value = '';
-            document.getElementById('form-desc').value = '';
-            document.getElementById('form-price').value = '';
-            document.getElementById('form-images').value = '';
-            document.getElementById('form-phone').value = '';
-            
-            render();
-            alert('✅ Offre ajoutée avec succès!');
-            document.getElementById('admin-panel').style.display = 'none';
-        }
-
-        // Supprimer une offre
-        function deleteCard(index) {
-            if (currentUser !== 'admin') return;
-            
-            if (confirm('Êtes-vous sûr de vouloir supprimer cette offre?')) {
-                items.splice(index, 1);
-                localStorage.setItem('guide_items', JSON.stringify(items));
-                galleryState = {}; // Réinitialiser l'état de la galerie
-                render();
-            }
-        }
-
         // Initialisation
-        render();
+        if (db) loadItemsFromFirebase();
     </script>
 </body>
 </html>
