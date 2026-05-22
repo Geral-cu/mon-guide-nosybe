@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Guide Touristique & Services - Madagascar Nord</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #064e3b; --secondary: #10b981; --dark: #1f2937; --light: #f9fafb; --danger: #dc2626; --police-color: #1d4ed8; --wa-color: #25d366; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--light); color: var(--dark); padding-bottom: 30px; }
+        
+        /* ÉCRAN DE CONNEXION */
+        .login-container { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--primary), #022c22); z-index: 9999; align-items: center; justify-content: center; }
+        .login-container.active { display: flex; }
+        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); max-width: 400px; width: 90%; }
+        .login-card h2 { text-align: center; margin-bottom: 30px; color: var(--primary); font-size: 1.8rem; }
+        .login-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .role-btn { padding: 15px; border: 2px solid #e5e7eb; border-radius: 10px; background: white; cursor: pointer; text-align: center; font-weight: bold; transition: all 0.2s; }
+        .role-btn.selected { border-color: var(--secondary); background-color: #f0fdf4; color: var(--secondary); }
+        .role-btn:hover { border-color: var(--secondary); }
+        .login-form { display: none; }
+        .login-form.active { display: block; }
+        .login-form input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 1rem; }
+        .login-form button { width: 100%; padding: 12px; background-color: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .login-form button:hover { background-color: #022c22; }
+        .login-message { text-align: center; margin-top: 15px; font-size: 0.9rem; color: #666; }
+        
+        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 1.8rem; margin: 0; flex: 1; }
+        .header-right { display: flex; gap: 10px; align-items: center; }
+        .user-badge { background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; }
+        .logout-btn { background: rgba(255,255,255,0.3); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .logout-btn:hover { background: rgba(255,255,255,0.5); }
+        
+        .emergency-banner { background-color: #fef2f2; border: 2px solid #fca5a5; border-radius: 12px; margin: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .emergency-title { color: var(--danger); font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; justify-content: center; }
+        .zone-title { font-size: 0.85rem; text-transform: uppercase; color: #7f1d1d; font-weight: 700; margin-top: 10px; margin-bottom: 6px; border-bottom: 1px solid #fee2e2; padding-bottom: 2px; }
+        .emergency-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 10px; }
+        .btn-urgency { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .btn-urgency:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .btn-call { background-color: var(--danger); }
+        .btn-police { background-color: var(--police-color); }
+        .btn-diego { background-color: #6b21a8; }
+        .btn-wa-urgency { background-color: var(--wa-color); grid-column: 1 / -1; margin-top: 4px; font-size: 0.95rem; padding: 12px; }
+        .filters { display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
+        .filter-btn { background-color: white; border: 1px solid #e5e7eb; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: #4b5563; transition: all 0.2s; }
+        .filter-btn.active { background-color: var(--secondary); color: white; border-color: var(--secondary); }
+        .container { padding: 10px 15px; display: grid; gap: 15px; }
+        .card { background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; position: relative; }
+        
+        /* GALERIE D'IMAGES */
+        .card-gallery { position: relative; width: 100%; height: 180px; background-color: #e5e7eb; overflow: hidden; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-counter { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+        .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 8px; pointer-events: none; }
+        .gallery-nav button { background: rgba(0,0,0,0.5); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; pointer-events: all; font-size: 1rem; transition: all 0.2s; }
+        .gallery-nav button:hover { background: rgba(0,0,0,0.8); }
+        .gallery-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.2s; }
+        .dot.active { background: white; width: 16px; border-radius: 3px; }
+        
+        .card-body { padding: 15px; }
+        .card-tag { font-size: 0.75rem; color: var(--secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+        .card-desc { font-size: 0.85rem; color: #4b5563; margin-bottom: 8px; line-height: 1.4; }
+        .card-phone { font-size: 0.8rem; color: #666; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .card-price { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
+        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.2s; }
+        .btn-wa:hover { opacity: 0.9; transform: scale(1.02); }
+        .btn-delete { background-color: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; margin-top: 8px; width: 100%; }
+        .btn-delete:hover { opacity: 0.8; }
+        .admin-panel { display: none; background-color: #f3f4f6; margin: 15px; padding: 15px; border-radius: 12px; }
+        .admin-panel input, .admin-panel textarea, .admin-panel select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 0.95rem; }
+        .btn-submit { background-color: var(--primary); color: white; padding: 10px; width: 100%; border-radius: 6px; border: none; font-weight: bold; margin-top: 5px; cursor: pointer; transition: all 0.2s; }
+        .btn-submit:hover { background-color: #022c22; }
+        .settings-panel { display: none; background-color: #e0f2fe; margin: 15px; padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary); }
+        .settings-title { font-size: 1rem; font-weight: bold; margin-bottom: 15px; color: var(--primary); }
+        .btn-settings { background-color: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
+        .action-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .admin-only { display: none; }
+        .admin-only.visible { display: block; }
+        .admin-badge { background-color: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+        .images-input-label { font-weight: bold; display: block; margin-bottom: 8px; margin-top: 12px; }
+        .images-hint { font-size: 0.8rem; color: #666; margin-bottom: 8px; font-style: italic; }
+        .add-image-btn { background-color: #0891b2; color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+        .add-image-btn:hover { background-color: #0e7490; }
+        .image-input-group { display: flex; gap: 8px; margin-bottom: 8px; }
+        .image-input-group input { flex: 1; }
+        .remove-img-btn { background-color: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+        .remove-img-btn:hover { background-color: #dc2626; }
+    </style>
+</head>
+<body>
+    <!-- ÉCRAN DE CONNEXION -->
+    <div class="login-container active" id="login-container">
+        <div class="login-card">
+            <h2>🌴 Madagascar Nord Guide</h2>
+            
+            <div class="login-options">
+                <button class="role-btn selected" onclick="selectRole('client')" id="client-btn">👤 Client</button>
+                <button class="role-btn" onclick="selectRole('admin')" id="admin-btn">🔐 Admin</button>
+            </div>
+            
+            <!-- FORMULAIRE CLIENT -->
+            <div class="login-form active" id="client-form">
+                <p style="text-align: center; margin-bottom: 20px; color: #666;">Accès direct à toutes les offres</p>
+                <button class="btn-submit" onclick="loginClient()">Accéder au Guide</button>
+                <div class="login-message">Aucune authentification requise</div>
+            </div>
+            
+            <!-- FORMULAIRE ADMIN -->
+            <div class="login-form" id="admin-form">
+                <input type="password" id="admin-password" placeholder="Entrez le code admin" onkeypress="if(event.key=='Enter') loginAdmin()">
+                <button class="btn-submit" onclick="loginAdmin()">Se Connecter</button>
+                <div class="login-message" id="admin-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENU PRINCIPAL -->
+    <div id="main-content" style="display: none;">
+        <header>
+            <h1>🌴 Madagascar Nord Guide</h1>
+            <div class="header-right">
+                <div class="user-badge">
+                    <span id="user-role"></span>
+                    <span id="admin-badge" style="display: none;"> <span class="admin-badge">ADMIN</span></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Déconnexion</button>
+            </div>
+        </header>
+        
+        <div class="emergency-banner">
+            <div class="emergency-title">⚠️ NUMÉROS D'URGENCE</div>
+            <div class="zone-title">📍 Nosy Be</div>
+            <div class="emergency-buttons">
+                <a href="tel:+261320722222" class="btn-urgency btn-call">🚑 Santé CMI</a>
+                <a href="tel:+261340570044" class="btn-urgency btn-police">🚓 Police Nosy Be</a>
+                <a href="tel:+261340561556" class="btn-urgency btn-police">🛡️ Gendarmerie</a>
+            </div>
+            <div class="zone-title">📍 Diego-Suarez</div>
+            <div class="emergency-buttons">
+                <a href="tel:+261320494474" class="btn-urgency btn-diego">🚑 Hôpital</a>
+                <a href="tel:+261340552433" class="btn-urgency btn-diego">🛡️ Gendarmerie</a>
+            </div>
+            <button class="btn-urgency btn-wa-urgency" onclick="sendWhatsAppUrgency()"><i class="fab fa-whatsapp"></i> Signaler une Urgence WhatsApp</button>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterCat('all')">Tout voir</button>
+            <button class="filter-btn" onclick="filterCat('Hôtel')">🏨 Hôtels</button>
+            <button class="filter-btn" onclick="filterCat('Excursion')">🏝️ Excursions</button>
+            <button class="filter-btn" onclick="filterCat('Location')">🏍️ Location</button>
+        </div>
+
+        <div class="container" id="cards-container"></div>
+
+        <div style="text-align:center; margin: 20px;">
+            <div class="action-buttons admin-only" id="admin-actions">
+                <button class="btn-settings" onclick="document.getElementById('admin-panel').style.display='block'">➕ Ajouter une offre</button>
+                <button class="btn-settings" onclick="document.getElementById('settings-panel').style.display='block'">⚙️ Paramètres WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- Panneau d'ajout d'offres -->
+        <div class="admin-panel admin-only" id="admin-panel">
+            <h3 style="margin-bottom: 15px;">Ajouter une nouvelle offre</h3>
+            <select id="form-cat">
+                <option value="Hôtel">🏨 Hôtel</option>
+                <option value="Excursion">🏝️ Excursion</option>
+                <option value="Location">🏍️ Location</option>
+            </select>
+            <input type="text" id="form-title" placeholder="Titre de l'offre">
+            <textarea id="form-desc" placeholder="Description détaillée"></textarea>
+            <input type="text" id="form-price" placeholder="Prix (ex: 35€ / jour)">
+            <input type="text" id="form-phone" placeholder="Téléphone (optionnel)">
+            
+            <!-- Gestion des images -->
+            <label class="images-input-label">📸 Ajouter des images</label>
+            <div class="images-hint">Collez les URLs des images (une par ligne)</div>
+            <textarea id="form-images" placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg&#10;https://example.com/photo3.jpg" style="height: 80px;"></textarea>
+            
+            <button class="btn-submit" onclick="addCard()">📤 Mettre en ligne</button>
+            <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('admin-panel').style.display='none'">Annuler</button>
+        </div>
+
+        <!-- Panneau de paramètres WhatsApp -->
+        <div class="settings-panel admin-only" id="settings-panel">
+            <div class="settings-title">⚙️ Paramètres de Contact WhatsApp</div>
+            <label style="font-weight: bold; margin-bottom: 8px; display: block;">Votre Numéro WhatsApp (sans +):</label>
+            <input type="text" id="default-wa" placeholder="261377842473" value="">
+            <label style="font-weight: bold; margin-top: 12px; margin-bottom: 8px; display: block;">Message de réservation par défaut:</label>
+            <textarea id="default-message" placeholder="Bonjour, j'aimerais réserver..." style="height: 100px;"></textarea>
+            <button class="btn-submit" onclick="saveSettings()">💾 Enregistrer les paramètres</button>
+            <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('settings-panel').style.display='none'">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // ========== SYSTÈME D'AUTHENTIFICATION ==========
+        const ADMIN_CODE = '1234'; // ⚠️ À CHANGER AVEC VOTRE CODE PERSONNEL
+        let currentUser = null;
+        
+        function selectRole(role) {
+            document.getElementById('client-btn').classList.remove('selected');
+            document.getElementById('admin-btn').classList.remove('selected');
+            document.getElementById('client-form').classList.remove('active');
+            document.getElementById('admin-form').classList.remove('active');
+            
+            if (role === 'client') {
+                document.getElementById('client-btn').classList.add('selected');
+                document.getElementById('client-form').classList.add('active');
+            } else {
+                document.getElementById('admin-btn').classList.add('selected');
+                document.getElementById('admin-form').classList.add('active');
+                document.getElementById('admin-password').focus();
+            }
+        }
+        
+        function loginClient() {
+            currentUser = 'client';
+            showMainContent();
+        }
+        
+        function loginAdmin() {
+            const password = document.getElementById('admin-password').value;
+            if (password === ADMIN_CODE) {
+                currentUser = 'admin';
+                showMainContent();
+            } else {
+                document.getElementById('admin-message').textContent = '❌ Code incorrect!';
+                document.getElementById('admin-password').value = '';
+                setTimeout(() => {
+                    document.getElementById('admin-message').textContent = '';
+                }, 3000);
+            }
+        }
+        
+        function showMainContent() {
+            document.getElementById('login-container').classList.remove('active');
+            document.getElementById('main-content').style.display = 'block';
+            
+            if (currentUser === 'admin') {
+                document.getElementById('user-role').textContent = '🔐 Admin';
+                document.getElementById('admin-badge').style.display = 'inline';
+                document.getElementById('admin-actions').classList.add('visible');
+                document.getElementById('admin-panel').classList.add('visible');
+                document.getElementById('settings-panel').classList.add('visible');
+            } else {
+                document.getElementById('user-role').textContent = '👤 Client';
+            }
+            
+            updateCardDisplay();
+        }
+        
+        function logout() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter?')) {
+                currentUser = null;
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('login-container').classList.add('active');
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-message').textContent = '';
+                selectRole('client');
+            }
+        }
+        
+        // ========== CONFIGURATION ET DONNÉES ==========
+        let whatsappConfig = JSON.parse(localStorage.getItem('wa_config')) || {
+            defaultNumber: '261377842473',
+            defaultMessage: 'Bonjour 👋, j\'aimerais réserver cette offre. Quelles sont les disponibilités et conditions?',
+            emergencyNumber: '261377842473'
+        };
+
+        const defaultData = [
+            { category: "Hôtel", location: "Nosy Be", title: "Cambria Hotel", desc: "Hôtel budget confortable, accueil chaleureux, idéal pour voyageurs en quête d'économies.", price: "À partir de 25€/nuit", images: ["https://via.placeholder.com/400x300?text=Cambria+Hotel"] },
+            { category: "Hôtel", location: "Nosy Be", title: "Villa Mia", desc: "Petit hôtel chaleureux avec terrasse vue sur mer. Atmosphère familiale et authentique.", price: "À partir de 32€/nuit", images: ["https://via.placeholder.com/400x300?text=Villa+Mia"] },
+            { category: "Hôtel", location: "Nosy Be", title: "Tropical Paradise", desc: "Hôtel 3 étoiles avec piscine, restaurant et bar. Service de qualité, bonne localisation.", price: "À partir de 50€/nuit", images: ["https://via.placeholder.com/400x300?text=Tropical+Paradise"] }
+        ];
+
+        let items = JSON.parse(localStorage.getItem('guide_items')) || defaultData;
+        let currentFilter = 'all';
+        let galleryState = {}; // Suivi de l'image active pour chaque carte
+
+        // Charger les paramètres
+        function loadSettings() {
+            document.getElementById('default-wa').value = whatsappConfig.defaultNumber;
+            document.getElementById('default-message').value = whatsappConfig.defaultMessage;
+        }
+
+        // Sauvegarder les paramètres
+        function saveSettings() {
+            whatsappConfig.defaultNumber = document.getElementById('default-wa').value || '261377842473';
+            whatsappConfig.defaultMessage = document.getElementById('default-message').value;
+            localStorage.setItem('wa_config', JSON.stringify(whatsappConfig));
+            alert('✅ Paramètres WhatsApp mis à jour!');
+            document.getElementById('settings-panel').style.display = 'none';
+        }
+
+        // Générer lien WhatsApp
+        function getWhatsAppLink(itemTitle, location = '') {
+            const number = whatsappConfig.defaultNumber;
+            const message = `Bonjour 👋, j'aimerais réserver: *${itemTitle}*${location ? ' (' + location + ')' : ''}. Quelles sont les disponibilités et conditions?`;
+            const encodedMessage = encodeURIComponent(message);
+            return `https://api.whatsapp.com/send?phone=${number}&text=${encodedMessage}`;
+        }
+
+        // Signaler une urgence par WhatsApp
+        function sendWhatsAppUrgency() {
+            const message = encodeURIComponent('⚠️ URGENCE: J\'ai besoin d\'aide immédiate à Madagascar Nord');
+            window.location.href = `https://api.whatsapp.com/send?phone=${whatsappConfig.emergencyNumber}&text=${message}`;
+        }
+
+        // Navigation galerie
+        function nextImage(index) {
+            const item = items[index];
+            if (!item.images || item.images.length === 0) return;
+            if (!galleryState[index]) galleryState[index] = 0;
+            galleryState[index] = (galleryState[index] + 1) % item.images.length;
+            updateGallery(index);
+        }
+
+        function prevImage(index) {
+            const item = items[index];
+            if (!item.images || item.images.length === 0) return;
+            if (!galleryState[index]) galleryState[index] = 0;
+            galleryState[index] = (galleryState[index] - 1 + item.images.length) % item.images.length;
+            updateGallery(index);
+        }
+
+        function goToImage(itemIndex, imageIndex) {
+            galleryState[itemIndex] = imageIndex;
+            updateGallery(itemIndex);
+        }
+
+        function updateGallery(index) {
+            const item = items[index];
+            if (!item.images || item.images.length === 0) return;
+            
+            const currentImageIdx = galleryState[index] || 0;
+            const imgElement = document.querySelector(`[data-card-index="${index}"] .card-img`);
+            if (imgElement) {
+                imgElement.src = item.images[currentImageIdx];
+            }
+            
+            // Mettre à jour les points
+            document.querySelectorAll(`[data-card-index="${index}"] .dot`).forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentImageIdx);
+            });
+            
+            // Mettre à jour le compteur
+            const counter = document.querySelector(`[data-card-index="${index}"] .gallery-counter`);
+            if (counter) {
+                counter.textContent = `${currentImageIdx + 1}/${item.images.length}`;
+            }
+        }
+
+        // Afficher les cartes
+        function render() {
+            let container = document.getElementById('cards-container');
+            container.innerHTML = '';
+            items.forEach((item, index) => {
+                if (currentFilter === 'all' || item.category === currentFilter) {
+                    const waLink = getWhatsAppLink(item.title, item.location);
+                    const deleteBtn = currentUser === 'admin' ? `<button class="btn-delete" onclick="deleteCard(${index})">🗑️ Supprimer</button>` : '';
+                    
+                    // Gérer les images
+                    const images = item.images && item.images.length > 0 ? item.images : ["https://via.placeholder.com/400x300?text=No+Image"];
+                    const hasMultipleImages = images.length > 1;
+                    
+                    // Construire les points de navigation
+                    const dotsHTML = images.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goToImage(${index}, ${i})"></div>`).join('');
+                    
+                    // Construire les boutons de navigation
+                    const navHTML = hasMultipleImages ? `
+                        <div class="gallery-nav">
+                            <button onclick="prevImage(${index})">❮</button>
+                            <button onclick="nextImage(${index})">❯</button>
+                        </div>
+                    ` : '';
+                    
+                    container.innerHTML += `
+                        <div class="card" data-card-index="${index}">
+                            <div class="card-gallery">
+                                <img class="card-img" src="${images[0]}" alt="${item.title}">
+                                ${hasMultipleImages ? `<div class="gallery-counter">${1}/${images.length}</div>` : ''}
+                                ${navHTML}
+                                ${hasMultipleImages ? `<div class="gallery-dots">${dotsHTML}</div>` : ''}
+                            </div>
+                            <div class="card-body">
+                                <div class="card-tag">${item.category}</div>
+                                <h3 class="card-title">${item.title}</h3>
+                                <p class="card-desc">${item.desc}</p>
+                                ${item.phone ? `<div class="card-phone">📞 ${item.phone}</div>` : ''}
+                                <div class="card-price">${item.price}</div>
+                                <a href="${waLink}" target="_blank" class="btn-wa">
+                                    <i class="fab fa-whatsapp"></i> Réserver / Demander Info
+                                </a>
+                                ${deleteBtn}
+                            </div>
+                        </div>`;
+                }
+            });
+        }
+
+        function updateCardDisplay() {
+            render();
+        }
+
+        // Filtrer par catégorie
+        function filterCat(cat) { 
+            currentFilter = cat; 
+            render();
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Ajouter une nouvelle offre
+        function addCard() {
+            if (currentUser !== 'admin') return;
+            
+            const cat = document.getElementById('form-cat').value;
+            const title = document.getElementById('form-title').value;
+            const desc = document.getElementById('form-desc').value;
+            const price = document.getElementById('form-price').value;
+            const phone = document.getElementById('form-phone').value;
+            const imagesText = document.getElementById('form-images').value;
+            
+            // Traiter les images
+            const images = imagesText
+                .split('\n')
+                .map(url => url.trim())
+                .filter(url => url.length > 0);
+
+            if (!title || !desc || !price || images.length === 0) {
+                alert('⚠️ Remplissez tous les champs obligatoires!\n- Au moins une image est requise');
+                return;
+            }
+
+            items.push({ 
+                category: cat, 
+                location: "Nosy Be", 
+                title: title, 
+                desc: desc, 
+                price: price, 
+                phone: phone, 
+                images: images 
+            });
+            localStorage.setItem('guide_items', JSON.stringify(items));
+            
+            // Réinitialiser le formulaire
+            document.getElementById('form-cat').value = 'Hôtel';
+            document.getElementById('form-title').value = '';
+            document.getElementById('form-desc').value = '';
+            document.getElementById('form-price').value = '';
+            document.getElementById('form-images').value = '';
+            document.getElementById('form-phone').value = '';
+            
+            render();
+            alert('✅ Offre ajoutée avec succès!');
+            document.getElementById('admin-panel').style.display = 'none';
+        }
+
+        // Supprimer une offre
+        function deleteCard(index) {
+            if (currentUser !== 'admin') return;
+            
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette offre?')) {
+                items.splice(index, 1);
+                localStorage.setItem('guide_items', JSON.stringify(items));
+                galleryState = {}; // Réinitialiser l'état de la galerie
+                render();
+            }
+        }
+
+        // Initialisation
+        render();
+    </script>
+</body>
+</html>
