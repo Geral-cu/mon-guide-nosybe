@@ -26,7 +26,7 @@
         .login-form button:hover { background-color: #022c22; }
         .login-message { text-align: center; margin-top: 15px; font-size: 0.9rem; color: #666; }
         
-        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        header { background: linear-gradient(135deg, var(--primary), #022c22); color: white; padding: 25px 15px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; display: flex; align-items: center; justify-content: space-between; }
         header h1 { font-size: 1.8rem; margin: 0; flex: 1; }
         .header-right { display: flex; gap: 10px; align-items: center; }
         .user-badge { background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; }
@@ -48,16 +48,27 @@
         .filter-btn.active { background-color: var(--secondary); color: white; border-color: var(--secondary); }
         .container { padding: 10px 15px; display: grid; gap: 15px; }
         .card { background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; position: relative; }
-        .card-img { width: 100%; height: 180px; object-fit: cover; background-color: #e5e7eb; }
+        
+        /* GALERIE D'IMAGES */
+        .card-gallery { position: relative; width: 100%; height: 180px; background-color: #e5e7eb; overflow: hidden; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-counter { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+        .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 8px; pointer-events: none; }
+        .gallery-nav button { background: rgba(0,0,0,0.5); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.2s; pointer-events: all; }
+        .gallery-nav button:hover { background: rgba(0,0,0,0.8); }
+        .gallery-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.2s; }
+        .dot.active { background: white; width: 16px; border-radius: 3px; }
+        
         .card-body { padding: 15px; }
         .card-tag { font-size: 0.75rem; color: var(--secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
         .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
         .card-desc { font-size: 0.85rem; color: #4b5563; margin-bottom: 8px; line-height: 1.4; }
         .card-phone { font-size: 0.8rem; color: #666; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
         .card-price { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
-        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: bold; transition: all 0.2s; }
+        .btn-wa { background-color: var(--wa-color); color: white; text-decoration: none; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: all 0.2s; }
         .btn-wa:hover { opacity: 0.9; transform: scale(1.02); }
-        .btn-delete { background-color: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+        .btn-delete { background-color: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; margin-top: 8px; width: 100%; }
         .btn-delete:hover { opacity: 0.8; }
         .admin-panel { display: none; background-color: #f3f4f6; margin: 15px; padding: 15px; border-radius: 12px; }
         .admin-panel input, .admin-panel textarea, .admin-panel select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 0.95rem; }
@@ -70,6 +81,14 @@
         .admin-only { display: none; }
         .admin-only.visible { display: block; }
         .admin-badge { background-color: #dc2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+        .images-input-label { font-weight: bold; display: block; margin-bottom: 8px; margin-top: 12px; }
+        .images-hint { font-size: 0.8rem; color: #666; margin-bottom: 8px; font-style: italic; }
+        .add-image-btn { background-color: #0891b2; color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+        .add-image-btn:hover { background-color: #0e7490; }
+        .image-input-group { display: flex; gap: 8px; margin-bottom: 8px; }
+        .image-input-group input { flex: 1; }
+        .remove-img-btn { background-color: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+        .remove-img-btn:hover { background-color: #dc2626; }
     </style>
 </head>
 <body>
@@ -155,8 +174,13 @@
             <input type="text" id="form-title" placeholder="Titre de l'offre">
             <textarea id="form-desc" placeholder="Description détaillée"></textarea>
             <input type="text" id="form-price" placeholder="Prix (ex: 35€ / jour)">
-            <input type="text" id="form-img" placeholder="URL de l'image directe">
             <input type="text" id="form-phone" placeholder="Téléphone (optionnel)">
+            
+            <!-- Gestion des images -->
+            <label class="images-input-label">📸 Ajouter des images</label>
+            <div class="images-hint">Collez les URLs des images (une par ligne)</div>
+            <textarea id="form-images" placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg&#10;https://example.com/photo3.jpg" style="height: 80px;"></textarea>
+            
             <button class="btn-submit" onclick="addCard()">📤 Mettre en ligne</button>
             <button class="btn-submit" style="background-color: #999; margin-top: 8px;" onclick="document.getElementById('admin-panel').style.display='none'">Annuler</button>
         </div>
@@ -227,7 +251,6 @@
                 document.getElementById('user-role').textContent = '👤 Client';
             }
             
-            // Afficher les boutons supprimer uniquement pour les admins
             updateCardDisplay();
         }
         
@@ -250,42 +273,14 @@
         };
 
         const defaultData = [
-            { category: "Hôtel", location: "Nosy Be", title: "Cambria Hotel", desc: "Hôtel budget confortable, accueil chaleureux, idéal pour voyageurs en quête d'économies.", price: "À partir de 23€/nuit", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Nosy Be", title: "Villa Mia", desc: "Petit hôtel chaleureux avec terrasse vue sur mer. Atmosphère familiale et authentique.", price: "À partir de 32€/nuit", phone: "+261 32 78 945 21", img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Nosy Be", title: "Tropical Paradise", desc: "Hôtel 3 étoiles avec piscine, restaurant et bar. Service de qualité, bonne localisation.", price: "À partir de 42€/nuit", phone: "+261 34 05 700 44", img: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Nosy Be", title: "Holiday Beach Hotel", desc: "Hôtel 3 étoiles face à la plage avec accès direct à la mer, restaurant et loisirs nautiques.", price: "À partir de 50€/nuit", phone: "+261 32 05 621 14", img: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Nosy Be", title: "Clair de Lune", desc: "Hôtel 3-4 étoiles, confortable avec vue panoramique. Piscine, spa et restaurant gastronomique.", price: "À partir de 60€/nuit", phone: "+261 34 05 705 55", img: "https://images.unsplash.com/photo-1518991669328-0bfc6b186340?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Nosy Be", title: "Loharano Lodge", desc: "Hôtel 4 étoiles luxe avec vue mer spectaculaire, spa premium et service haut de gamme.", price: "À partir de 104€/nuit", phone: "+261 32 04 851 63", img: "https://images.unsplash.com/photo-1562576633-055ee5dbb183?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Nosy Be", title: "Vanila Hotel & Spa", desc: "Hôtel 5 étoiles avec spa de luxe, piscine infini, restaurant gourmet et plage privée.", price: "À partir de 124€/nuit", phone: "+261 32 07 542 89", img: "https://images.unsplash.com/photo-1571896349842-e4e0a7552e3c?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Diego-Suarez", title: "Lotus Hotel", desc: "Hôtel budget idéal pour les voyageurs économes. Propre, simple et accueillant.", price: "À partir de 9€/nuit", phone: "+261 32 04 521 47", img: "https://images.unsplash.com/photo-1605559424843-9e4c3ca3806d?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Diego-Suarez", title: "Hotel Le Colbert", desc: "Hôtel 3 étoiles central, avec service attentif et bonne cuisine. Excellent rapport qualité-prix.", price: "À partir de 37€/nuit", phone: "+261 34 05 524 33", img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Diego-Suarez", title: "Le Jardin Exotique", desc: "Hôtel 3-4 étoiles avec jardins tropicaux, piscine et restaurant. Atmosphère raffinée.", price: "À partir de 70€/nuit", phone: "+261 32 05 647 82", img: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80" },
-            { category: "Hôtel", location: "Diego-Suarez", title: "Grand Hotel Diego", desc: "Hôtel 4 étoiles luxe avec vue panoramique sur le port. Service premium et confort supérieur.", price: "À partir de 113€/nuit", phone: "+261 34 05 528 94", img: "https://images.unsplash.com/photo-1518991669328-0bfc6b186340?auto=format&fit=crop&w=800&q=80" },
-            { category: "Location", location: "Nosy Be", title: "Location Quad 300cc", desc: "Quad puissant 2 places équipé de casques de sécurité et gilets. Explorez l'île en toute liberté et sécurité.", price: "50€ / jour", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80" },
-            { category: "Location", location: "Nosy Be", title: "Location Moto/Scooter 125cc", desc: "Motos et scooters bien entretenus pour explorer l'île. Casques et assurance inclus. Modèles légers et faciles.", price: "15€ / jour", phone: "+261 32 89 969 03", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80" },
-            { category: "Location", location: "Nosy Be", title: "Location VTT (Vélo Tout-Terrain)", desc: "VTT robustes et confortables pour explorer les pistes de l'île. Casques et accessoires fournis.", price: "12€ / jour", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "Réserve Naturelle de Lokobe", desc: "Découverte des lémuriens et forêt tropicale primaire. Visite guidée en groupe ou privée avec expert naturaliste.", price: "65€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "Hell-Ville & Marchés Traditionnels", desc: "Visite guidée du centre-ville, marchés traditionnels colorés, culture malgache et architecture locale.", price: "35€/pers (demi-journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1493857671505-72967e2e2760?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "Tour Complet de l'Île Nosy Be", desc: "Excursion complète : points de vue panoramiques, arbres sacrés, plages cachées, vie locale. Lunch inclus.", price: "45€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "Randonnée Trekking Nature", desc: "Exploration des paysages intérieurs, cascades, lagons, véhétation luxuriante. Guide naturiste expert.", price: "60-90€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1551632440-5d3ae9bd7ebc?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "Jardins Ylang-Ylang & Distillerie", desc: "Visite des jardins de fleurs exotiques, démonstration de distillation, achat de produits locaux authentiques.", price: "40€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1469873212035-56ceb8ff4d3f?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Tanikely", title: "🏝️ Parc Marin Nosy Tanikely", desc: "L'aquarium naturel ! Snorkeling magnifique, phare historique, observation de poissons tropicaux, tortues marines. Réserve marine protégée.", price: "55€/pers (journée complète)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Komba", title: "Nosy Komba & Tanikely Combo", desc: "Deux îles en une journée ! Lémuriens de Komba + snorkeling extraordinaire à Tanikely. Repas, guide et matériel inclus.", price: "60€/pers (journée complète)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Sakatia", title: "Île Nosy Sakatia - Snorkeling", desc: "Île paradisiaque avec plages vierges, snorkeling avec tortues marines, poissons colorés, ambiance tropicale.", price: "45€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Iranja", title: "Île Nosy Iranja - Paradis", desc: "L'île paradisiaque ! Snorkeling extraordinaire, croisière scenic, sable blanc, eau cristalline. Lunch pique-nique inclus.", price: "60€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "Combo 2 Îles - Tanikely + Sakatia", desc: "Deux îles magnifiques en une excursion ! Snorkeling complet, lunch, guide expert, matériel inclus.", price: "95€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "🛥️ Bateau Privé 1-5 Personnes", desc: "Bateau privé pour votre groupe ! Snorkeling aux meilleurs spots, repas raffiné à bord, service VIP, flexibilité totale.", price: "260€/bateau (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "🛥️ Bateau Privé 6-10 Personnes", desc: "Grand bateau privé pour groupe ! Snorkeling premium, lunch gastronomique, guide personnel, confort et flexibilité.", price: "300€/bateau (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "🤿 Baptême de Plongée (1 Plongée)", desc: "Votre première plongée ! Cours en piscine ou en eau peu profonde. Accompagnement instructeur expert. Brevet PADI.", price: "55-65€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "🤿 Baptême de Plongée (2 Plongées)", desc: "Deux plongées pour bien débuter ! Exploration des fonds marins, découverte de la faune multicolore.", price: "90-100€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "🤿 Pack 2 Plongées (Brevetés)", desc: "Pour plongeurs brevetés. Exploration des plus beaux spots, faune exceptionnelle, coraux, jardins de corail.", price: "75-85€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "🤿 Pack 4 Plongées (Brevetés)", desc: "Séjour découverte en plongée. Exploration intensive, apprentissage avancé, spots exclusifs.", price: "146-166€/pers", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "🐋 Safari Baleines & Requins-Baleine", desc: "Observation des géantes créatures marines (juin-septembre). Expérience inoubliable, photos spectaculaires.", price: "60€/pers (journée)", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" },
-            { category: "Excursion", location: "Nosy Be", title: "Multi-Îles Mitsio/Radama (2-3j)", desc: "Expédition complète : bivouac naturel, guide expert, snorkeling, observation faune. Tout compris.", price: "90-110€/pers/jour", phone: "+261 32 07 210 79", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" }
+            { category: "Hôtel", location: "Nosy Be", title: "Cambria Hotel", desc: "Hôtel budget confortable, accueil chaleureux, idéal pour voyageurs en quête d'économies.", price: "À partir de 12€/nuit", images: ["https://via.placeholder.com/400x300?text=Cambria+Hotel"] },
+            { category: "Hôtel", location: "Nosy Be", title: "Villa Mia", desc: "Petit hôtel chaleureux avec terrasse vue sur mer. Atmosphère familiale et authentique.", price: "À partir de 32€/nuit", images: ["https://via.placeholder.com/400x300?text=Villa+Mia"] },
+            { category: "Hôtel", location: "Nosy Be", title: "Tropical Paradise", desc: "Hôtel 3 étoiles avec piscine, restaurant et bar. Service de qualité, bonne localisation.", price: "À partir de 45€/nuit", images: ["https://via.placeholder.com/400x300?text=Tropical+Paradise"] },
         ];
 
         let items = JSON.parse(localStorage.getItem('guide_items')) || defaultData;
         let currentFilter = 'all';
+        let galleryState = {}; // Suivi de l'image active pour chaque carte
 
         // Charger les paramètres
         function loadSettings() {
@@ -316,6 +311,50 @@
             window.location.href = `https://api.whatsapp.com/send?phone=${whatsappConfig.emergencyNumber}&text=${message}`;
         }
 
+        // Navigation galerie
+        function nextImage(index) {
+            const item = items[index];
+            if (!item.images || item.images.length === 0) return;
+            if (!galleryState[index]) galleryState[index] = 0;
+            galleryState[index] = (galleryState[index] + 1) % item.images.length;
+            updateGallery(index);
+        }
+
+        function prevImage(index) {
+            const item = items[index];
+            if (!item.images || item.images.length === 0) return;
+            if (!galleryState[index]) galleryState[index] = 0;
+            galleryState[index] = (galleryState[index] - 1 + item.images.length) % item.images.length;
+            updateGallery(index);
+        }
+
+        function goToImage(itemIndex, imageIndex) {
+            galleryState[itemIndex] = imageIndex;
+            updateGallery(itemIndex);
+        }
+
+        function updateGallery(index) {
+            const item = items[index];
+            if (!item.images || item.images.length === 0) return;
+            
+            const currentImageIdx = galleryState[index] || 0;
+            const imgElement = document.querySelector(`[data-card-index="${index}"] .card-img`);
+            if (imgElement) {
+                imgElement.src = item.images[currentImageIdx];
+            }
+            
+            // Mettre à jour les points
+            document.querySelectorAll(`[data-card-index="${index}"] .dot`).forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentImageIdx);
+            });
+            
+            // Mettre à jour le compteur
+            const counter = document.querySelector(`[data-card-index="${index}"] .gallery-counter`);
+            if (counter) {
+                counter.textContent = `${currentImageIdx + 1}/${item.images.length}`;
+            }
+        }
+
         // Afficher les cartes
         function render() {
             let container = document.getElementById('cards-container');
@@ -324,9 +363,30 @@
                 if (currentFilter === 'all' || item.category === currentFilter) {
                     const waLink = getWhatsAppLink(item.title, item.location);
                     const deleteBtn = currentUser === 'admin' ? `<button class="btn-delete" onclick="deleteCard(${index})">🗑️ Supprimer</button>` : '';
+                    
+                    // Gérer les images
+                    const images = item.images && item.images.length > 0 ? item.images : ["https://via.placeholder.com/400x300?text=No+Image"];
+                    const hasMultipleImages = images.length > 1;
+                    
+                    // Construire les points de navigation
+                    const dotsHTML = images.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goToImage(${index}, ${i})"></div>`).join('');
+                    
+                    // Construire les boutons de navigation
+                    const navHTML = hasMultipleImages ? `
+                        <div class="gallery-nav">
+                            <button onclick="prevImage(${index})">❮</button>
+                            <button onclick="nextImage(${index})">❯</button>
+                        </div>
+                    ` : '';
+                    
                     container.innerHTML += `
-                        <div class="card">
-                            <img class="card-img" src="${item.img}" alt="${item.title}">
+                        <div class="card" data-card-index="${index}">
+                            <div class="card-gallery">
+                                <img class="card-img" src="${images[0]}" alt="${item.title}">
+                                ${hasMultipleImages ? `<div class="gallery-counter">${1}/${images.length}</div>` : ''}
+                                ${navHTML}
+                                ${hasMultipleImages ? `<div class="gallery-dots">${dotsHTML}</div>` : ''}
+                            </div>
                             <div class="card-body">
                                 <div class="card-tag">${item.category}</div>
                                 <h3 class="card-title">${item.title}</h3>
@@ -365,22 +425,37 @@
             const title = document.getElementById('form-title').value;
             const desc = document.getElementById('form-desc').value;
             const price = document.getElementById('form-price').value;
-            const img = document.getElementById('form-img').value;
             const phone = document.getElementById('form-phone').value;
+            const imagesText = document.getElementById('form-images').value;
+            
+            // Traiter les images
+            const images = imagesText
+                .split('\n')
+                .map(url => url.trim())
+                .filter(url => url.length > 0);
 
-            if (!title || !desc || !price || !img) {
-                alert('⚠️ Remplissez tous les champs obligatoires!');
+            if (!title || !desc || !price || images.length === 0) {
+                alert('⚠️ Remplissez tous les champs obligatoires!\n- Au moins une image est requise');
                 return;
             }
 
-            items.push({ category: cat, location: "Nosy Be", title: title, desc: desc, price: price, phone: phone, img: img });
+            items.push({ 
+                category: cat, 
+                location: "Nosy Be", 
+                title: title, 
+                desc: desc, 
+                price: price, 
+                phone: phone, 
+                images: images 
+            });
             localStorage.setItem('guide_items', JSON.stringify(items));
             
+            // Réinitialiser le formulaire
             document.getElementById('form-cat').value = 'Hôtel';
             document.getElementById('form-title').value = '';
             document.getElementById('form-desc').value = '';
             document.getElementById('form-price').value = '';
-            document.getElementById('form-img').value = '';
+            document.getElementById('form-images').value = '';
             document.getElementById('form-phone').value = '';
             
             render();
@@ -395,6 +470,7 @@
             if (confirm('Êtes-vous sûr de vouloir supprimer cette offre?')) {
                 items.splice(index, 1);
                 localStorage.setItem('guide_items', JSON.stringify(items));
+                galleryState = {}; // Réinitialiser l'état de la galerie
                 render();
             }
         }
